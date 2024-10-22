@@ -1,5 +1,5 @@
 form {
-    max-height: 850px;
+    max-height: 1000px;
 }
 .formPart {
     display: flex;
@@ -14,16 +14,20 @@ form {
     gap: 10px;
     align-items: center;
     }
-
+    
 #checkedBoxList {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-#checkedBoxList label {
+.checkbox label {
     margin-left: 10px;
 }
+.checkbox{
+    margin: 15px 0px;
+}
+
 #email {
     display: flex;
     flex-direction: column;
@@ -173,4 +177,73 @@ select{
 }
 p{
     font-size: 12px;
+}
+
+#header2{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#formValues{
+    display: flex;
+    flex-direction: column;
+}
+
+.eachFormValue {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 10px 0;
+}
+
+.eachFormValue h5 {
+    justify-items: flex-start;
+}
+
+#time {
+    display: flex;
+    font-size: 25px;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    padding: 5px;
+    background-color: lightblue;
+    color: navy;
+    font-weight: 800;
+    border-radius: 10px;
+}
+
+#icredecre{
+    display: flex;
+    flex-direction: column;
+}
+#increment, #decrement {
+    font-size: 15px;
+}
+
+#wholeTime{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#title{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.allDays {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: lightblue;
+}
+
+.allWeeks{
+    padding: 10px;
 }

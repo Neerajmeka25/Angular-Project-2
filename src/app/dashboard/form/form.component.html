@@ -1,13 +1,20 @@
 <form [formGroup]="ScheduleReport" class="mat-dialog-container">
-    <div class="formPart">
+    <div class="formPart" *ngIf="count_step==0">
         <div id="header">
             <h2>Schedule Reports</h2>
             <img [src]="imageUrl" alt="information png">
         </div>
         <h4>Select Required Report Types</h4>
-        <div id="checkedBoxList">
+        <div id="checkedBoxlist">
+            <div class="checkbox" *ngFor="let data of checkedItem">
+                <input type="checkbox" [formControlName]="data.formName" value="data.vehicle"
+                    (change)="onCheckedBox(data.name)" />
+                <label>{{data.name}}</label>
+            </div>
+        </div>
+        <!-- <div id="checkedBoxList">
             <div class="checkbox">
-                <input type="checkbox" formControlName="fleet" />
+                <input type="checkbox" formControlName="fleet"/>
                 <label>Fleet Wise Report</label>
             </div>
             <div>
@@ -22,7 +29,7 @@
                 <input type="checkbox" formControlName="driving" />
                 <label>Driving Scorecard Report</label>
             </div>
-        </div>
+        </div> -->
         <div id="wholeVehicle" *ngIf="showVehicleList">
             <h4>Select Vehicles</h4>
             <div id="mainVehicle">
@@ -33,16 +40,17 @@
                             <option value="mumbai">Mumbai</option>
                             <option value="thane">Thane</option>
                             <option value="pune">Pune</option>
-                          </select>
+                        </select>
                     </div>
                     <div id="searchVehicle">
-                        <input type="text" formControlName="vehicleSearch" >
+                        <input type="text" formControlName="vehicleSearch">
                         <img [src]="searchImageUrl" alt="search Image">
                     </div>
                 </div>
                 <div id="vehicleData">
                     <div *ngFor="let vehicle of filteredVehicles" id="singleVehicle">
-                        <input type="checkbox" (change)="onVehicleSelect(vehicle)" />
+                        <input type="checkbox" [checked]="selectedVehicles.includes(vehicle.vin)"
+                            (change)="onVehicleSelect(vehicle)" />
                         <div>
                             <p><b>{{ vehicle.registration_number }}</b></p>
                             <p>VIN: {{ vehicle.vin }}</p>
@@ -70,8 +78,94 @@
             </div>
         </div>
     </div>
+    <div class="formPart" *ngIf="count_step==1">
+        <div id="header2">
+            <h2>Schedule Reports</h2>
+            <button (click)="prevStep()">Edit</button>
+        </div>
+        <div id="formValues">
+            <div class="eachFormValue">
+                <h5>Report Types</h5>
+                <p *ngFor="let data of selectedCheckbox">{{ data }}</p>
+            </div>
+            <div class="eachFormValue">
+                <h5>Selected Vehicles</h5>
+                <p *ngFor="let vehicle of selectedVehicles">{{ vehicle }}</p>
+            </div>
+            <div class="eachFormValue">
+                <h5>Mailed to</h5>
+                <p *ngFor="let data of emailList">
+                    {{data}}
+                </p>
+            </div>
+        </div>
+        <div id="settingTimenDate">
+            <div id="wholeTime">
+                <h5>Set Time</h5>
+                <div id="timePart">
+                    <div id="time">
+                        <span id="hour">{{ formatTime(hours) }}</span>
+                        <span>:</span>
+                        <span id="minutes">{{ formatTime(minutes) }}</span>
+                        <div id="icredecre">
+                            <span id="increment" (click)="increment()">&#8593;</span>
+                            <span id="decrement" (click)="decrement()">&#8595;</span>
+                        </div>
+                        <div>
+                            <button (click)="toggleAmPm()">{{ ampm }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="calender">
+                <div id="title">
+                    <h5>Set Time Interval</h5>
+                    <div>
+                        <p>Skip Weekends</p>
+                    </div>
+                </div>
+                <div id="selectDate" [ngSwitch]="selectedOption + 1">
+                    <div class="everyOption">
+                        <input type="radio" name="calendertype" id="week" (change)="onChange($event)" value="Weekly">
+                        <label for="week">Weekly</label>
+                        <div *ngSwitchCase="'1'" class="allDays">
+                            <div class="allweeks" *ngFor="let data of days">
+                                <p>{{data}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="everyOption">
+                        <input type="radio" name="calendertype" id="twoWeek" (change)="onChange($event)"
+                            value="Every 2 Weeks">
+                        <label for="twoWeek">Every 2 Weeks</label>
+                        <div *ngSwitchCase="'2'" class="allDays">
+                            <div class="allWeeks" *ngFor="let data of days">
+                                <p>{{data}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="everyOption">
+                        <input type="radio" name="calendertype" id="month" (change)="onChange($event)" value="Monthly">
+                        <label for="month">Monthly</label>
+                        <div *ngSwitchCase="'3'">3</div>
+                    </div>
+                    <div class="everyOption">
+                        <input type="radio" name="calendertype" id="quater" (change)="onChange($event)"
+                            value="Quaterly">
+                        <label for="quater">Quaterly</label>
+                        <div *ngSwitchCase="'4'">4</div>
+                    </div>
+                    <div class="everyOption">
+                        <input type="radio" name="calendertype" id="year" (change)="onChange($event)" value="Yearly">
+                        <label for="year">Yearly</label>
+                        <div *ngSwitchCase="'5'">5</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="pageControl">
-        <button>Cancel</button>
-        <button>Next ></button>
+        <button (click)="prevStep()">Cancel</button>
+        <button (click)="nextStep()">Next ></button>
     </div>
 </form>

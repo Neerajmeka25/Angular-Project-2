@@ -1,0 +1,176 @@
+form {
+    max-height: 850px;
+}
+.formPart {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+    padding-right: 60px;
+}
+
+#header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    }
+
+#checkedBoxList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#checkedBoxList label {
+    margin-left: 10px;
+}
+#email {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+#emailHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+img{
+    height: 20px;
+    cursor: pointer;
+  }
+button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: navy;
+    color: white;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+#addEmail{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+}
+#inputEmail {
+    padding: 8px;
+}
+#addingEmail{
+    padding: 8px 20px;
+    cursor: pointer;
+}
+#pageControl {
+    padding-right: 60px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    align-items: center;
+}
+
+
+#enteredEmails {
+    width: 100%;
+    height: 100px;
+    padding: 0;
+    background-color: #f0f0f0;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.email-item {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 0 10px 0 0;
+}
+
+#removeEmail{
+    background-color: white;
+    width: 15px;
+    height: 15px;
+    border: none;
+    color: black;
+    padding: 0;
+}
+
+
+#wholeVehicle {
+    width: 110%;
+    height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-right: 0;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+#mainVehicle {
+    padding: 5px;
+    
+    
+}
+
+#searchVehicle {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px 10px;
+    border: 1px solid black;
+    gap: 5px;
+}
+#vehicleFilters {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+select{
+    padding: 6.8px 10px;
+    width: 150px;
+    text-align: center;
+    border: 1px solid black;
+}
+#searchVehicle input {
+    background-color: white;
+    border: none;
+}
+
+#searchVehicle input:focus{
+    background-color: white;
+    outline: none;
+}
+
+#vehicleData {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#singleVehicle {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 5px;
+}
+p{
+    font-size: 12px;
+}

@@ -1,0 +1,77 @@
+<form [formGroup]="ScheduleReport" class="mat-dialog-container">
+    <div class="formPart">
+        <div id="header">
+            <h2>Schedule Reports</h2>
+            <img [src]="imageUrl" alt="information png">
+        </div>
+        <h4>Select Required Report Types</h4>
+        <div id="checkedBoxList">
+            <div class="checkbox">
+                <input type="checkbox" formControlName="fleet" />
+                <label>Fleet Wise Report</label>
+            </div>
+            <div>
+                <input type="checkbox" formControlName="vehicle" />
+                <label>Vehicle Wise Report</label>
+            </div>
+            <div>
+                <input type="checkbox" formControlName="trip" />
+                <label>Trip Wise</label>
+            </div>
+            <div>
+                <input type="checkbox" formControlName="driving" />
+                <label>Driving Scorecard Report</label>
+            </div>
+        </div>
+        <div id="wholeVehicle" *ngIf="showVehicleList">
+            <h4>Select Vehicles</h4>
+            <div id="mainVehicle">
+                <div id="vehicleFilters">
+                    <div id="placeFilter">
+                        <select name="vehicles" id="selectedPlace" formControlName="branch">
+                            <option value="All Vehicles">All Vehicles</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="thane">Thane</option>
+                            <option value="pune">Pune</option>
+                          </select>
+                    </div>
+                    <div id="searchVehicle">
+                        <input type="text" formControlName="vehicleSearch" >
+                        <img [src]="searchImageUrl" alt="search Image">
+                    </div>
+                </div>
+                <div id="vehicleData">
+                    <div *ngFor="let vehicle of filteredVehicles" id="singleVehicle">
+                        <input type="checkbox" (change)="onVehicleSelect(vehicle)" />
+                        <div>
+                            <p><b>{{ vehicle.registration_number }}</b></p>
+                            <p>VIN: {{ vehicle.vin }}</p>
+                            <p>{{ vehicle.lob_name }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="email">
+            <div id="emailHeader">
+                <h4>Enter Email Ids</h4>
+                <button id="enterEmail" (click)="showInput()">{{ButtonValue}}</button>
+            </div>
+            <div id="addEmail" *ngIf="showEmail">
+                <input type="email" formControlName="userEmail" id="inputEmail">
+                <button id="addingEmail" (click)="putEmail()">Add</button>
+            </div>
+            <div id="enteredEmails">
+                <div *ngFor="let email of emailList" class="email-item">
+                    <span>{{ email }} </span>
+                    <button class="remove-button" id="removeEmail" (click)="removeEmail(email)">X</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pageControl">
+        <button>Cancel</button>
+        <button>Next ></button>
+    </div>
+</form>

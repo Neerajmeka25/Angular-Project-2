@@ -1,0 +1,9 @@
+<div id="body">
+    <nav>
+      <ul *ngFor="let data of navs" (click)="navigate(data)">
+        <li>{{data}}</li>
+      </ul>
+    </nav>
+    <h3 #nameOfUser></h3>
+</div> 
+<button mat-raised-button color="primary" (click)="openForm()">Add Schedule Report</button>

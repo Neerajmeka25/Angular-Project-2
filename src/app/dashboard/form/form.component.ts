@@ -32,12 +32,13 @@ export class FormComponent implements OnInit {
     { name: "Trip Wise", formName: "trip", vehicle: false },
     { name: "Driving Scorecard Report", formName: "driving", vehicle: true }
   ]
-
+  daysCalender: number[] = [];
   constructor(private fb: FormBuilder, private vehicleService: VehicleService) {
     this.vehicleService.getVehicleData().subscribe((data) => {
       this.vehicleList = data.vehicles;
       this.filteredVehicles = this.vehicleList;
     })
+    this.daysCalender = this.generateNumbers(28);
   }
 
   ngOnInit(): void {
@@ -172,14 +173,27 @@ export class FormComponent implements OnInit {
   }
   
 
-  days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  cases = ['Weekly','Every 2 Weeks','Monthly','Quaterly','Yearly'];
-  value : any;
+  days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  cases = ['Weekly', 'Every 2 Weeks', 'Monthly', 'Quarterly', 'Yearly'];
+  value: any;
   selectedOption!: number;
-  onChange(e: any){
+  selectedDay: string | null = null;
+
+  onChange(e: any) {
     this.value = e.target.value;
-    console.log(this.value);
     this.selectedOption = this.cases.indexOf(this.value);
+    this.selectedDay = null; // Reset selected day when changing calendar type
   }
 
+  selectValue(day: string): void {
+    this.selectedDay = this.selectedDay === day ? null : day; // Toggle selection
+  }
+  
+  generateNumbers(count: number): number[] {
+    const numbers: number[] = [];
+    for (let i = 1; i <= count; i++) { // Start from 1 to count
+      numbers.push(i);
+    }
+    return numbers;
+  }
 }

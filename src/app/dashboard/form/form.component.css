@@ -236,14 +236,73 @@ p{
     justify-content: space-between;
 }
 
+#selectDate{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.everyOption{
+    margin: 10px 0;
+}
+
+.everyOption label {
+    margin-left: 10px;
+}
+
 .allDays {
     display: flex;
     gap: 10px;
     align-items: center;
-    justify-content: center;
     background-color: lightblue;
+    overflow-x: scroll;
 }
 
 .allWeeks{
     padding: 10px;
 }
+
+.allWeeks p{
+    padding: 10px;
+    cursor: pointer;
+}
+
+.allWeeks p:hover {
+    background-color: navy;
+    color: white;
+    border-radius: 15px;
+}
+
+.selected {
+    background-color: navy; 
+    color: white; 
+    border-radius: 15px;
+  }
+
+  .calendar {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .row {
+    display: flex;
+  }
+  
+  .cell {
+    flex: 1; 
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    background-color: lightblue;
+    border-radius: 50%;
+  }
+
+  .cell:hover {
+    background-color: navy;
+    color: white;
+  }
+
+  
+  

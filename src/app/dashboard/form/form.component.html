@@ -128,39 +128,69 @@
                     <div class="everyOption">
                         <input type="radio" name="calendertype" id="week" (change)="onChange($event)" value="Weekly">
                         <label for="week">Weekly</label>
-                        <div *ngSwitchCase="'1'" class="allDays">
-                            <div class="allweeks" *ngFor="let data of days">
-                                <p>{{data}}</p>
+                        <div *ngSwitchCase="1" class="allDays">
+                            <div class="allWeeks" *ngFor="let day of days">
+                                <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">{{ day }}</p>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="everyOption">
-                        <input type="radio" name="calendertype" id="twoWeek" (change)="onChange($event)"
-                            value="Every 2 Weeks">
+                        <input type="radio" name="calendertype" id="twoWeek" (change)="onChange($event)" value="Every 2 Weeks">
                         <label for="twoWeek">Every 2 Weeks</label>
-                        <div *ngSwitchCase="'2'" class="allDays">
-                            <div class="allWeeks" *ngFor="let data of days">
-                                <p>{{data}}</p>
+                        <div *ngSwitchCase="2" class="allDays">
+                            <div class="allWeeks" *ngFor="let day of days">
+                                <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">{{ day }}</p>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="everyOption">
                         <input type="radio" name="calendertype" id="month" (change)="onChange($event)" value="Monthly">
                         <label for="month">Monthly</label>
-                        <div *ngSwitchCase="'3'">3</div>
+                        <div *ngSwitchCase="3" class="allDays">
+                            <!-- <mat-card class="day-selector">
+                                <mat-calendar [(selected)]="selectedDate"></mat-calendar>
+                              </mat-card>                   -->
+                              <div class="calendar">
+                                <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
+                                  <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
+                                    {{ day }}
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
                     </div>
+                    
                     <div class="everyOption">
-                        <input type="radio" name="calendertype" id="quater" (change)="onChange($event)"
-                            value="Quaterly">
-                        <label for="quater">Quaterly</label>
-                        <div *ngSwitchCase="'4'">4</div>
+                        <input type="radio" name="calendertype" id="quarter" (change)="onChange($event)" value="Quarterly">
+                        <label for="quarter">Quarterly</label>
+                        <div *ngSwitchCase="4" class="allDays">
+                            <div class="calendar">
+                                <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
+                                  <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
+                                    {{ day }}
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
                     </div>
+                    
                     <div class="everyOption">
                         <input type="radio" name="calendertype" id="year" (change)="onChange($event)" value="Yearly">
                         <label for="year">Yearly</label>
-                        <div *ngSwitchCase="'5'">5</div>
+                        <div *ngSwitchCase="5" class="allDays">
+                            <div class="calendar">
+                                <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
+                                  <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
+                                    {{ day }}
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>

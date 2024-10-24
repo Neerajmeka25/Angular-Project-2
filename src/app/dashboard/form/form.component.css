@@ -6,7 +6,7 @@ form {
     flex-direction: column;
     gap: 20px;
     padding: 30px;
-    padding-right: 60px;
+    /*padding-right: 60px;*/
 }
 
 #header {
@@ -112,8 +112,8 @@ button {
 
 
 #wholeVehicle {
-    width: 110%;
-    height: 300px;
+    width: 100%;
+    height: 150px;
     overflow: scroll;
     overflow-x: hidden;
     padding-right: 0;
@@ -165,6 +165,7 @@ select{
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 5px;
 }
 #singleVehicle {
     width: 45%;
@@ -174,6 +175,9 @@ select{
     flex-wrap: wrap;
     gap: 5px;
     padding: 5px;
+    background-color: lightblue;
+    margin: 2.5px;
+    border-radius: 5px;
 }
 p{
     font-size: 12px;
@@ -193,14 +197,32 @@ p{
 
 .eachFormValue {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    align-items: flex-start;
     margin: 10px 0;
+    width: 100%;
 }
 
 .eachFormValue h5 {
-    justify-items: flex-start;
+    margin-right: 10px;
+    flex: 0 0 auto;
+    min-width: 150px;
 }
+
+
+
+.email-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 70%;
+    overflow: hidden;
+    
+}
+
+.email-container p {
+    white-space: nowrap;
+    margin: 0 5px 0 0 ;
+}
+
 
 #time {
     display: flex;
@@ -256,6 +278,7 @@ p{
     align-items: center;
     background-color: lightblue;
     overflow-x: scroll;
+    margin-top: 10px;
 }
 
 .allWeeks{
@@ -278,31 +301,63 @@ p{
     color: white; 
     border-radius: 15px;
   }
-
+.selectedQ {
+    background-color: navy; 
+    color: white; 
+}
   .calendar {
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 5px;
-    overflow: hidden;
+    overflow-x: hidden;
+    margin: 0 auto;
   }
-  
-  .row {
+  .Calender{
+    overflow-x: hidden;
+  } 
+  .cell.selectedD {
+    background-color: navy !important;
+    color: white;
+}
+
+.row {
     display: flex;
-  }
-  
-  .cell {
+}
+
+.cell {
     flex: 1; 
     padding: 10px;
     text-align: center;
     font-size: 18px;
     background-color: lightblue;
     border-radius: 50%;
-  }
+}
 
-  .cell:hover {
+.cell:hover {
     background-color: navy;
     color: white;
+}
+
+  .quarterly{
+    width: 100%;
+  }
+  .quaterlyCalender{
+    overflow-x: hidden;
+  }
+  .eachQuarter{
+    padding: 10px;
+    cursor: pointer;
   }
 
+  .yearly{
+    width: 100%;
+  }
+  .yearlyCalender{
+    overflow-x: hidden;
+  }
+  .eachYear{
+    padding: 10px;
+    cursor: pointer;
+  }
   
   

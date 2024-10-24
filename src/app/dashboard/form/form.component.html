@@ -5,6 +5,8 @@
             <img [src]="imageUrl" alt="information png">
         </div>
         <h4>Select Required Report Types</h4>
+        <span *ngIf="reportCheckBox" style="color: red;margin: -15px 0 -30px 0;
+    font-size: 12px;">*Select a Report Type</span>
         <div id="checkedBoxlist">
             <div class="checkbox" *ngFor="let data of checkedItem">
                 <input type="checkbox" [formControlName]="data.formName" value="data.vehicle"
@@ -31,7 +33,10 @@
             </div>
         </div> -->
         <div id="wholeVehicle" *ngIf="showVehicleList">
-            <h4>Select Vehicles</h4>
+            <h4 style="margin-left: 15px;
+    margin-top: 8px;">Select Vehicles</h4>
+            <span *ngIf="reportVehicles" style="color: red;margin: -15px 0 -30px 0;
+    font-size: 12px;">*Select a Vehicle</span>
             <div id="mainVehicle">
                 <div id="vehicleFilters">
                     <div id="placeFilter">
@@ -66,6 +71,8 @@
                 <h4>Enter Email Ids</h4>
                 <button id="enterEmail" (click)="showInput()">{{ButtonValue}}</button>
             </div>
+            <span *ngIf="reportEmail" style="color: red;margin: -15px 0 -30px 0;
+    font-size: 12px;">*Enter a email</span>
             <div id="addEmail" *ngIf="showEmail">
                 <input type="email" formControlName="userEmail" id="inputEmail">
                 <button id="addingEmail" (click)="putEmail()">Add</button>
@@ -86,18 +93,31 @@
         <div id="formValues">
             <div class="eachFormValue">
                 <h5>Report Types</h5>
-                <p *ngFor="let data of selectedCheckbox">{{ data }}</p>
+                <div class="eachValue">
+                    <p *ngFor="let data of selectedCheckbox; let i = index"><span
+                            *ngIf="i!=0 && i == selectedCheckbox.length-1"> and </span>{{ data }} <span
+                            *ngIf="i < selectedCheckbox.length - 1">,</span></p>
+                </div>
             </div>
             <div class="eachFormValue">
                 <h5>Selected Vehicles</h5>
-                <p *ngFor="let vehicle of selectedVehicles">{{ vehicle }}</p>
+                <div class="eachValue">
+                    <p *ngIf="selectedVehicles.length === 0">None</p>
+                    <p *ngIf="selectedVehicles.length === 1">{{ selectedVehicles[0] }}</p>
+                    <p *ngIf="selectedVehicles.length > 1">{{ selectedVehicles[0] }} and {{ additionalCount }} others
+                    </p>
+                </div>
             </div>
             <div class="eachFormValue">
                 <h5>Mailed to</h5>
-                <p *ngFor="let data of emailList">
-                    {{data}}
-                </p>
+                <div class="eachValue email-container">
+                    <p *ngFor="let data of emailList; let i = index">
+                        <span *ngIf="i!=0 && i == emailList.length - 1"></span>
+                        {{ data }}<span *ngIf="i < emailList.length - 1">, </span>
+                    </p>
+                </div>
             </div>
+
         </div>
         <div id="settingTimenDate">
             <div id="wholeTime">
@@ -125,77 +145,94 @@
                     </div>
                 </div>
                 <div id="selectDate" [ngSwitch]="selectedOption + 1">
+                    <!-- Weekly Option -->
                     <div class="everyOption">
                         <input type="radio" name="calendertype" id="week" (change)="onChange($event)" value="Weekly">
                         <label for="week">Weekly</label>
                         <div *ngSwitchCase="1" class="allDays">
                             <div class="allWeeks" *ngFor="let day of days">
-                                <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">{{ day }}</p>
+                                <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">
+                                    {{ day }}
+                                </p>
                             </div>
                         </div>
                     </div>
-                    
+
+                    <!-- Every 2 Weeks Option -->
                     <div class="everyOption">
-                        <input type="radio" name="calendertype" id="twoWeek" (change)="onChange($event)" value="Every 2 Weeks">
+                        <input type="radio" name="calendertype" id="twoWeek" (change)="onChange($event)"
+                            value="Every 2 Weeks">
                         <label for="twoWeek">Every 2 Weeks</label>
                         <div *ngSwitchCase="2" class="allDays">
                             <div class="allWeeks" *ngFor="let day of days">
-                                <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">{{ day }}</p>
+                                <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">
+                                    {{ day }}
+                                </p>
                             </div>
                         </div>
                     </div>
-                    
+
+                    <!-- Monthly Option -->
                     <div class="everyOption">
                         <input type="radio" name="calendertype" id="month" (change)="onChange($event)" value="Monthly">
                         <label for="month">Monthly</label>
-                        <div *ngSwitchCase="3" class="allDays">
-                            <!-- <mat-card class="day-selector">
-                                <mat-calendar [(selected)]="selectedDate"></mat-calendar>
-                              </mat-card>                   -->
-                              <div class="calendar">
-                                <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
-                                  <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
-                                    {{ day }}
-                                  </div>
-                                </div>
-                              </div>
-                        </div>
-                    </div>
-                    
-                    <div class="everyOption">
-                        <input type="radio" name="calendertype" id="quarter" (change)="onChange($event)" value="Quarterly">
-                        <label for="quarter">Quarterly</label>
-                        <div *ngSwitchCase="4" class="allDays">
+                        <div *ngSwitchCase="3" class="allDays Calender">
                             <div class="calendar">
-                                <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
-                                  <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
-                                    {{ day }}
-                                  </div>
+                                <div class="row" *ngFor="let row of daysCalender | slice:0:4; let i = index">
+                                    <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)"
+                                        [class.selectedD]="selectedDayCal === day" (click)="selectDay(day)">
+                                        {{ day }}
+                                    </div>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                     </div>
-                    
+
+                    <!-- Quarterly Option -->
+                    <div class="everyOption">
+                        <input type="radio" name="calendertype" id="quarter" (change)="onChange($event)"
+                            value="Quarterly">
+                        <label for="quarter">Quarterly</label>
+                        <div *ngSwitchCase="4" class="allDays quaterlyCalender">
+                            <div class="quarterly">
+                                <div *ngFor="let quarter of quarters" class="eachQuarter"
+                                    [class.selectedQ]="selectedQuarter === quarter" (click)="selectQuarter(quarter)">
+                                    <p>{{ quarter }}</p>
+                                </div>
+
+                                <!-- Custom Calendar Selection for Quarterly -->
+                                <div *ngIf="selectedQuarter === 'Custom'" style="margin-top: 10px;width: 90%;">
+                                    <div class="row" *ngFor="let row of daysCalender | slice:0:4; let i = index">
+                                        <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)"
+                                            [class.selectedD]="selectedDayCal === day" (click)="selectDay(day)">
+                                            {{ day }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yearly Option -->
                     <div class="everyOption">
                         <input type="radio" name="calendertype" id="year" (change)="onChange($event)" value="Yearly">
                         <label for="year">Yearly</label>
-                        <div *ngSwitchCase="5" class="allDays">
-                            <div class="calendar">
-                                <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
-                                  <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
-                                    {{ day }}
-                                  </div>
+                        <div *ngSwitchCase="5" class="allDays yearlyCalender">
+                            <div class="yearly">
+                                <div *ngFor="let year of yearly" class="eachYear"
+                                    [class.selectedQ]="selectedYear === year" (click)="selectYear(year)">
+                                    <p>{{ year }}</p>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
     <div id="pageControl">
         <button (click)="prevStep()">Cancel</button>
-        <button (click)="nextStep()">Next ></button>
+        <button (click)="nextStep()" *ngIf="count_step==0">Next></button>
+        <button type="submit" *ngIf="count_step==1" (click)="nextStep()">Done</button>
     </div>
 </form>

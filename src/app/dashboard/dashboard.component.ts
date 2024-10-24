@@ -11,6 +11,7 @@ import { FormComponent } from './form/form.component';
 export class DashboardComponent {
   constructor(private auth: AuthService, private route: Router, private dialog: MatDialog) { }
   @ViewChild('nameOfUser') userLoggedIn !: ElementRef;
+  loggedInUser = this.auth.loggedinuser;
   showForm : boolean = false;
   ngAfterViewInit() {
     this.userLoggedIn.nativeElement.textContent = `Welcome ${this.auth.loggedinuser}`;
@@ -30,7 +31,10 @@ export class DashboardComponent {
   openForm() {
     this.dialog.open(FormComponent, {
       width: '500PX',
-      height: '450px',
+      height: '500px',
+      data: {
+        username:   this.loggedInUser
+      },
     });
   }
 }

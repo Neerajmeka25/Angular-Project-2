@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VehicleService } from 'src/app/service/vehicle.service';
 
 @Component({
@@ -18,6 +19,8 @@ export class FormComponent implements OnInit {
   showVehicleList: boolean = false;
   selectedVehicles: string[] = [];
   selectedCheckbox: string[] = [];
+  //nextValue: string = "Next>";
+  formattedTime: string;
 
   imageUrl = '../../assets/information.png';
   searchImageUrl = 'assets/search.png';
@@ -33,12 +36,15 @@ export class FormComponent implements OnInit {
     { name: "Driving Scorecard Report", formName: "driving", vehicle: true }
   ]
   daysCalender: number[] = [];
-  constructor(private fb: FormBuilder, private vehicleService: VehicleService) {
+  username: string;
+  constructor(private fb: FormBuilder, private vehicleService: VehicleService,@Inject(MAT_DIALOG_DATA) public data: any) {
     this.vehicleService.getVehicleData().subscribe((data) => {
       this.vehicleList = data.vehicles;
       this.filteredVehicles = this.vehicleList;
     })
     this.daysCalender = this.generateNumbers(28);
+    this.formattedTime = this.getFormattedTime();
+    this.username = data.username;
   }
 
   ngOnInit(): void {
@@ -118,19 +124,85 @@ export class FormComponent implements OnInit {
     console.log('Selected Vehicles:', this.selectedVehicles);
   }
 
+  get additionalCount(){
+    return this.selectedVehicles.length > 1 ? this.selectedVehicles.length - 1 : 0;
+  } 
   nextStep(){
-    if(this.count_step<this.total_step){
-      console.log('Selected Vehicles before next step:', this.selectedVehicles);
-      this.count_step++;
+    if(this.validateForm()){
+        if(this.count_step<this.total_step){
+          this.count_step++;
+          //this.nextValue = "Done";
+        }
+        else{
+          this.saveToLocalStorage();
+          console.log("data saved");
+        }
+      }
     }
-    else{
-      alert("Last Page")
+    reportCheckBox: boolean = false;
+    reportVehicles: boolean = false;
+    reportEmail: boolean = false;
+    validateForm(){
+      if(this.selectedCheckbox.length == 0){
+        this.reportCheckBox = true;
+        return false
+      } else{
+        this.reportCheckBox = false;
+      }
+
+
+      if(this.selectedCheckbox.includes("Vehicle Wise Report") && this.selectedVehicles.length == 0){
+        this.reportVehicles = true;
+        return false;
+      } else {
+        this.reportVehicles = false;
+      }
+
+      
+      if(this.emailList.length == 0){
+        this.reportEmail = true;
+        return false;
+      } else{
+        this.reportEmail = false;
+      }
+      return true;
     }
+
+    /*
+      validateForm() {
+  // Check if no checkbox is selected
+  if (this.selectedCheckbox.length == 0) {
+    this.reportCheckBox = true;
+    return false;
+  } else {
+    this.reportCheckBox = false; // Clear error if valid
   }
 
+  // Check if "Vehicle Wise Report" is selected but no vehicle is chosen
+  if (this.selectedCheckbox.includes("Vehicle Wise Report") && this.selectedVehicles.length == 0) {
+    this.reportVehicles = true;
+    return false;
+  } else {
+    this.reportVehicles = false; // Clear error if valid
+  }
+
+  // Check if no email is entered
+  if (this.emailList.length == 0) {
+    this.reportEmail = true;
+    return false;
+  } else {
+    this.reportEmail = false; // Clear error if valid
+  }
+
+  // If all checks pass, return true
+  return true;
+}
+
+    */
   prevStep(){
     if(this.count_step==1){
       this.count_step--;
+      //this.nextValue = "Next>";
     }
   }
   hours: number = 12; 
@@ -148,6 +220,7 @@ export class FormComponent implements OnInit {
     } else {
       this.minutes++;
     }
+    this.updateFormattedTime();
   }
 
   decrement() {
@@ -161,39 +234,90 @@ export class FormComponent implements OnInit {
     } else {
       this.minutes--;
     }
+    this.updateFormattedTime();
   }
 
 
   toggleAmPm() {
     this.ampm = this.ampm === 'AM' ? 'PM' : 'AM';
+    this.updateFormattedTime();
   }
 
   formatTime(value: number): string {
     return value < 10 ? '0' + value : value.toString();
   }
   
+  getFormattedTime(): string {
+    return `${this.formatTime(this.hours)}:${this.formatTime(this.minutes)} ${this.ampm}`;
+  }
+  updateFormattedTime() {
+    this.formattedTime = this.getFormattedTime(); // Call the method to get the updated formatted time
+  }
 
   days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  cases = ['Weekly', 'Every 2 Weeks', 'Monthly', 'Quarterly', 'Yearly'];
-  value: any;
-  selectedOption!: number;
-  selectedDay: string | null = null;
+cases = ['Weekly', 'Every 2 Weeks', 'Monthly', 'Quarterly', 'Yearly'];
 
-  onChange(e: any) {
-    this.value = e.target.value;
-    this.selectedOption = this.cases.indexOf(this.value);
-    this.selectedDay = null; // Reset selected day when changing calendar type
-  }
+value: string | null = null;
+selectedOption!: number;
+selectedDay: string | null = null;
+selectedDayCal: number | null = null;
+selectedQuarter: string | null = null;
+selectedYear: string | null = null;
 
-  selectValue(day: string): void {
-    this.selectedDay = this.selectedDay === day ? null : day; // Toggle selection
-  }
+quarters = ['Last Day of the Quarter', 'First Day of the Quarter', 'Custom'];
+yearly = ['Last Day of the Year', 'First Day of the Year', 'Custom'];
+
+onChange(event: any) {
+  this.value = event.target.value;
+  this.selectedOption = this.value ? this.cases.indexOf(this.value) : -1;
   
-  generateNumbers(count: number): number[] {
-    const numbers: number[] = [];
-    for (let i = 1; i <= count; i++) { // Start from 1 to count
-      numbers.push(i);
-    }
-    return numbers;
+  this.selectedDay = null;
+  this.selectedQuarter = null;
+  this.selectedYear = null;
+  this.selectedDayCal = null;
+}
+
+
+selectValue(day: string): void {
+  this.selectedDay = this.selectedDay === day ? null : day;
+}
+
+selectDay(day: number): void {
+  this.selectedDayCal = this.selectedDayCal === day ? null : day;
+}
+
+selectQuarter(quarter: string): void {
+  this.selectedQuarter = this.selectedQuarter === quarter ? null : quarter;
+}
+
+selectYear(year: string): void {
+  this.selectedYear = this.selectedYear === year ? null : year;
+}
+
+generateNumbers(count: number): number[] {
+  const numbers: number[] = [];
+  for (let i = 1; i <= count; i++) {
+    numbers.push(i);
   }
+  return numbers;
+}
+
+
+  saveToLocalStorage() {
+    const reportData = {
+      selectedCheckbox: this.selectedCheckbox,
+      emailList: this.emailList,
+      selectedVehicles: this.selectedVehicles,
+      scheduledTime: this.formattedTime,
+      selectedDay: this.selectedDay,
+      selectedDayCal: this.selectedDayCal,
+      value : this.value,
+      selectedQuarter: this.selectedQuarter,
+      selectedYear : this.selectedYear
+    };
+
+    localStorage.setItem(this.username, JSON.stringify(reportData));
+    alert('Data saved to local storage!');
+  }
+
 }

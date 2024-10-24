@@ -1,98 +1,201 @@
-Got it! You want to create a multi-step modal form where each step collects different sets of data, and then saves all the data at the end. Here's how you can implement that in Angular using reactive forms.
+<form [formGroup]="ScheduleReport" class="mat-dialog-container">
+  <div class="formPart" *ngIf="count_step==0">
+      <div id="header">
+          <h2>Schedule Reports</h2>
+          <img [src]="imageUrl" alt="information png">
+      </div>
+      <h4>Select Required Report Types</h4>
+      <div id="checkedBoxlist">
+          <div class="checkbox" *ngFor="let data of checkedItem">
+              <input type="checkbox" [formControlName]="data.formName" value="data.vehicle"
+                  (change)="onCheckedBox(data.name)" />
+              <label>{{data.name}}</label>
+          </div>
+      </div>
+      <!-- <div id="checkedBoxList">
+          <div class="checkbox">
+              <input type="checkbox" formControlName="fleet"/>
+              <label>Fleet Wise Report</label>
+          </div>
+          <div>
+              <input type="checkbox" formControlName="vehicle" />
+              <label>Vehicle Wise Report</label>
+          </div>
+          <div>
+              <input type="checkbox" formControlName="trip" />
+              <label>Trip Wise</label>
+          </div>
+          <div>
+              <input type="checkbox" formControlName="driving" />
+              <label>Driving Scorecard Report</label>
+          </div>
+      </div> -->
+      <div id="wholeVehicle" *ngIf="showVehicleList">
+          <h4>Select Vehicles</h4>
+          <div id="mainVehicle">
+              <div id="vehicleFilters">
+                  <div id="placeFilter">
+                      <select name="vehicles" id="selectedPlace" formControlName="branch">
+                          <option value="All Vehicles">All Vehicles</option>
+                          <option value="mumbai">Mumbai</option>
+                          <option value="thane">Thane</option>
+                          <option value="pune">Pune</option>
+                      </select>
+                  </div>
+                  <div id="searchVehicle">
+                      <input type="text" formControlName="vehicleSearch">
+                      <img [src]="searchImageUrl" alt="search Image">
+                  </div>
+              </div>
+              <div id="vehicleData">
+                  <div *ngFor="let vehicle of filteredVehicles" id="singleVehicle">
+                      <input type="checkbox" [checked]="selectedVehicles.includes(vehicle.vin)"
+                          (change)="onVehicleSelect(vehicle)" />
+                      <div>
+                          <p><b>{{ vehicle.registration_number }}</b></p>
+                          <p>VIN: {{ vehicle.vin }}</p>
+                          <p>{{ vehicle.lob_name }}</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-Step 1: Set Up Your Component
-You’ll need a main component to control the steps and store the data. Here’s an outline for your job-application-modal.component.ts:
-
-typescript
-Copy code
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-@Component({
-  selector: 'app-job-application-modal',
-  templateUrl: './job-application-modal.component.html',
-  styleUrls: ['./job-application-modal.component.css']
-})
-export class JobApplicationModalComponent implements OnInit {
-  applicationForm: FormGroup;
-  currentStep: number = 0;
-  steps = [
-    { title: 'Step 1: Experience', fields: ['yearsOfExperience'] },
-    { title: 'Step 2: Skills', fields: ['skills'] },
-    { title: 'Step 3: Availability', fields: ['availability'] }
-  ];
-
-  constructor(private fb: FormBuilder) {
-    this.applicationForm = this.fb.group({
-      yearsOfExperience: ['', [Validators.required, Validators.min(0)]],
-      skills: ['', Validators.required],
-      availability: ['', Validators.required],
-    });
-  }
-
-  ngOnInit(): void {}
-
-  nextStep() {
-    if (this.currentStep < this.steps.length - 1) {
-      this.currentStep++;
-    }
-  }
-
-  previousStep() {
-    if (this.currentStep > 0) {
-      this.currentStep--;
-    }
-  }
-
-  onSubmit() {
-    if (this.applicationForm.valid) {
-      console.log('Form Submitted!', this.applicationForm.value);
-      // Handle form submission (e.g., send data to the server)
-    }
-  }
-}
-Step 2: Create the Template
-In job-application-modal.component.html, create the multi-step form:
-
-html
-Copy code
-<div class="modal">
-  <h2>{{ steps[currentStep].title }}</h2>
-  <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
-    <ng-container *ngIf="currentStep === 0">
-      <label for="yearsOfExperience">Years of Experience in AWS:</label>
-      <input id="yearsOfExperience" formControlName="yearsOfExperience" type="number" />
-    </ng-container>
-
-    <ng-container *ngIf="currentStep === 1">
-      <label for="skills">Relevant Skills:</label>
-      <input id="skills" formControlName="skills" type="text" />
-    </ng-container>
-
-    <ng-container *ngIf="currentStep === 2">
-      <label for="availability">Availability:</label>
-      <input id="availability" formControlName="availability" type="text" />
-    </ng-container>
-
-    <div class="navigation">
-      <button type="button" (click)="previousStep()" [disabled]="currentStep === 0">Previous</button>
-      <button type="button" (click)="nextStep()" [disabled]="!applicationForm.valid">Next</button>
-      <button type="submit" *ngIf="currentStep === steps.length - 1">Submit</button>
-    </div>
-  </form>
-</div>
-Step 3: Add Styling for the Modal
-You can keep the previous styling for the modal. Just ensure the buttons are styled appropriately.
-
-Step 4: Manage Navigation Between Steps
-The nextStep and previousStep methods will control which part of the form the user sees. The form data is retained throughout the steps because it's all part of the same FormGroup.
-
-Step 5: Handling Form Submission
-When the user reaches the last step and clicks "Submit," the onSubmit method will handle the final data submission.
-
-Example Final Structure:
-Step 1: User enters years of experience.
-Step 2: User enters relevant skills.
-Step 3: User enters availability.
-Finally, clicking "Submit" sends all the data at once.
-This structure allows for easy addition or modification of steps as needed. Let me know if you need any further details or adjustments!
+      <div id="email">
+          <div id="emailHeader">
+              <h4>Enter Email Ids</h4>
+              <button id="enterEmail" (click)="showInput()">{{ButtonValue}}</button>
+          </div>
+          <div id="addEmail" *ngIf="showEmail">
+              <input type="email" formControlName="userEmail" id="inputEmail">
+              <button id="addingEmail" (click)="putEmail()">Add</button>
+          </div>
+          <div id="enteredEmails">
+              <div *ngFor="let email of emailList" class="email-item">
+                  <span>{{ email }} </span>
+                  <button class="remove-button" id="removeEmail" (click)="removeEmail(email)">X</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="formPart" *ngIf="count_step==1">
+      <div id="header2">
+          <h2>Schedule Reports</h2>
+          <button (click)="prevStep()">Edit</button>
+      </div>
+      <div id="formValues">
+          <div class="eachFormValue">
+              <h5>Report Types</h5>
+              <p *ngFor="let data of selectedCheckbox">{{ data }}</p>
+          </div>
+          <div class="eachFormValue">
+              <h5>Selected Vehicles</h5>
+              <p *ngFor="let vehicle of selectedVehicles">{{ vehicle }}</p>
+          </div>
+          <div class="eachFormValue">
+              <h5>Mailed to</h5>
+              <p *ngFor="let data of emailList">
+                  {{data}}
+              </p>
+          </div>
+      </div>
+      <div id="settingTimenDate">
+          <div id="wholeTime">
+              <h5>Set Time</h5>
+              <div id="timePart">
+                  <div id="time">
+                      <span id="hour">{{ formatTime(hours) }}</span>
+                      <span>:</span>
+                      <span id="minutes">{{ formatTime(minutes) }}</span>
+                      <div id="icredecre">
+                          <span id="increment" (click)="increment()">&#8593;</span>
+                          <span id="decrement" (click)="decrement()">&#8595;</span>
+                      </div>
+                      <div>
+                          <button (click)="toggleAmPm()">{{ ampm }}</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div id="calender">
+              <div id="title">
+                  <h5>Set Time Interval</h5>
+                  <div>
+                      <p>Skip Weekends</p>
+                  </div>
+              </div>
+              <div id="selectDate" [ngSwitch]="selectedOption + 1">
+                  <div class="everyOption">
+                      <input type="radio" name="calendertype" id="week" (change)="onChange($event)" value="Weekly">
+                      <label for="week">Weekly</label>
+                      <div *ngSwitchCase="1" class="allDays">
+                          <div class="allWeeks" *ngFor="let day of days">
+                              <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">{{ day }}</p>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="everyOption">
+                      <input type="radio" name="calendertype" id="twoWeek" (change)="onChange($event)" value="Every 2 Weeks">
+                      <label for="twoWeek">Every 2 Weeks</label>
+                      <div *ngSwitchCase="2" class="allDays">
+                          <div class="allWeeks" *ngFor="let day of days">
+                              <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">{{ day }}</p>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="everyOption">
+                      <input type="radio" name="calendertype" id="month" (change)="onChange($event)" value="Monthly">
+                      <label for="month">Monthly</label>
+                      <div *ngSwitchCase="3" class="allDays">
+                          <!-- <mat-card class="day-selector">
+                              <mat-calendar [(selected)]="selectedDate"></mat-calendar>
+                            </mat-card>                   -->
+                            <div class="calendar">
+                              <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
+                                <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
+                                  {{ day }}
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                  </div>
+                  
+                  <div class="everyOption">
+                      <input type="radio" name="calendertype" id="quarter" (change)="onChange($event)" value="Quarterly">
+                      <label for="quarter">Quarterly</label>
+                      <div *ngSwitchCase="4" class="allDays">
+                          <div class="calendar">
+                              <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
+                                <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
+                                  {{ day }}
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                  </div>
+                  
+                  <div class="everyOption">
+                      <input type="radio" name="calendertype" id="year" (change)="onChange($event)" value="Yearly">
+                      <label for="year">Yearly</label>
+                      <div *ngSwitchCase="5" class="allDays">
+                          <div class="calendar">
+                              <div class="row" *ngFor="let row of daysCalender | slice:0:7; let i = index">
+                                <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)">
+                                  {{ day }}
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                  </div>
+              </div>
+              
+          </div>
+      </div>
+  </div>
+  <div id="pageControl">
+      <button (click)="prevStep()">Cancel</button>
+      <button (click)="nextStep()">Next ></button>
+  </div>
+</form>

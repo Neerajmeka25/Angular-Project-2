@@ -6,10 +6,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
   declarations: [
     FormComponent,
+    EditComponent,
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatNativeDateModule
   ],
   exports: [
-    FormComponent
+    FormComponent,
+    EditComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

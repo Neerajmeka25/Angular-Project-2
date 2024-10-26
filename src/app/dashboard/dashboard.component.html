@@ -6,4 +6,7 @@
     </nav>
     <h3 #nameOfUser></h3>
 </div> 
-<button mat-raised-button color="primary" (click)="openForm()">Add Schedule Report</button>
+<button mat-raised-button color="primary" (click)="openForm()" *ngIf="!alreadyFilled">Add Schedule Report</button>
+<p *ngIf="alreadyFilled">Already Filled the form!!!</p>
+<br>
+<button (click)="edit()">Edit</button>

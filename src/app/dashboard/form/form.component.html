@@ -71,7 +71,7 @@
                 <h4>Enter Email Ids</h4>
                 <button id="enterEmail" (click)="showInput()">{{ButtonValue}}</button>
             </div>
-            <span *ngIf="reportEmail" style="color: red;margin: -15px 0 -30px 0;
+            <span *ngIf="reportEmail" style="color: red;
     font-size: 12px;">*Enter a email</span>
             <div id="addEmail" *ngIf="showEmail">
                 <input type="email" formControlName="userEmail" id="inputEmail">
@@ -123,74 +123,80 @@
             <div id="wholeTime">
                 <h5>Set Time</h5>
                 <div id="timePart">
-                    <div id="time">
-                        <span id="hour">{{ formatTime(hours) }}</span>
-                        <span>:</span>
-                        <span id="minutes">{{ formatTime(minutes) }}</span>
-                        <div id="icredecre">
-                            <span id="increment" (click)="increment()">&#8593;</span>
-                            <span id="decrement" (click)="decrement()">&#8595;</span>
+                  <div id="time">
+                    <input matInput type="text" formControlName="time" class="time-input" />
+                    <div id="icredecre">
+                      <span id="increment" (click)="increment()">&#8593;</span>
+                      <span id="decrement" (click)="decrement()">&#8595;</span>
+                    </div>
+                    <div class="ampm-container">
+                        <div class="ampm-box" (click)="ampm = 'AM'; updateTimeInput()" [class.selected]="ampm === 'AM'">
+                          AM
                         </div>
-                        <div>
-                            <button (click)="toggleAmPm()">{{ ampm }}</button>
+                        <div class="ampm-box" (click)="ampm = 'PM'; updateTimeInput()" [class.selected]="ampm === 'PM'">
+                          PM
                         </div>
                     </div>
+                  </div>
                 </div>
-            </div>
+              </div>
             <div id="calender">
                 <div id="title">
                     <h5>Set Time Interval</h5>
-                    <div>
+                    <div id="Weekends">
                         <p>Skip Weekends</p>
+                        <div class="mainToggle">
+                            <div class="toggle" (click)="Toggle()">
+                                <div class="circle one" *ngIf="toggleOnOff"></div>
+                                <div class="circle two" *ngIf="!toggleOnOff"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="selectDate" [ngSwitch]="selectedOption + 1">
-                    <!-- Weekly Option -->
                     <div class="everyOption">
-                        <input type="radio" name="calendertype" id="week" (change)="onChange($event)" value="Weekly">
+                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="week" (change)="onChange($event)" value="Weekly">
                         <label for="week">Weekly</label>
                         <div *ngSwitchCase="1" class="allDays">
-                            <div class="allWeeks" *ngFor="let day of days">
+                            <div class="allWeeks" *ngFor="let day of filteredDays">
                                 <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">
                                     {{ day }}
                                 </p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Every 2 Weeks Option -->
                     <div class="everyOption">
-                        <input type="radio" name="calendertype" id="twoWeek" (change)="onChange($event)"
+                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="twoWeek" (change)="onChange($event)"
                             value="Every 2 Weeks">
                         <label for="twoWeek">Every 2 Weeks</label>
                         <div *ngSwitchCase="2" class="allDays">
-                            <div class="allWeeks" *ngFor="let day of days">
+                            <div class="allWeeks" *ngFor="let day of filteredDays">
                                 <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">
                                     {{ day }}
                                 </p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Monthly Option -->
                     <div class="everyOption">
-                        <input type="radio" name="calendertype" id="month" (change)="onChange($event)" value="Monthly">
+                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="month" (change)="onChange($event)" value="Monthly">
                         <label for="month">Monthly</label>
                         <div *ngSwitchCase="3" class="allDays Calender">
                             <div class="calendar">
-                                <div class="row" *ngFor="let row of daysCalender | slice:0:4; let i = index">
-                                    <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)"
-                                        [class.selectedD]="selectedDayCal === day" (click)="selectDay(day)">
-                                        {{ day }}
-                                    </div>
-                                </div>
+                                <mat-card class="demo-inline-calendar-card">
+                                    <mat-calendar [(selected)]="selected" [dateClass]="dateClass"
+                                        [dateFilter]="dateFilter" class="monthlyCal">
+                                        <mat-calendar-header>
+                                            <div></div>
+                                        </mat-calendar-header>
+                                    </mat-calendar>
+                                </mat-card>
+                                <p>Selected date: {{ selected | date: 'fullDate' }}</p>
                             </div>
+
                         </div>
                     </div>
-
-                    <!-- Quarterly Option -->
                     <div class="everyOption">
-                        <input type="radio" name="calendertype" id="quarter" (change)="onChange($event)"
+                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="quarter" (change)="onChange($event)"
                             value="Quarterly">
                         <label for="quarter">Quarterly</label>
                         <div *ngSwitchCase="4" class="allDays quaterlyCalender">
@@ -199,15 +205,12 @@
                                     [class.selectedQ]="selectedQuarter === quarter" (click)="selectQuarter(quarter)">
                                     <p>{{ quarter }}</p>
                                 </div>
-
-                                <!-- Custom Calendar Selection for Quarterly -->
-                                <div *ngIf="selectedQuarter === 'Custom'" style="margin-top: 10px;width: 90%;">
-                                    <div class="row" *ngFor="let row of daysCalender | slice:0:4; let i = index">
-                                        <div class="cell" *ngFor="let day of daysCalender.slice(i * 7, (i + 1) * 7)"
-                                            [class.selectedD]="selectedDayCal === day" (click)="selectDay(day)">
-                                            {{ day }}
-                                        </div>
-                                    </div>
+                                <div *ngIf="selectedQuarter === 'Custom'" style="width: 100%;">
+                                    <mat-card class="demo-inline-calendar-card">
+                                        <mat-calendar [(selected)]="selected" [dateClass]="dateClass"
+                                            [dateFilter]="dateFilter" [monthFilter]="monthFilter"></mat-calendar>
+                                    </mat-card>
+                                    <p>Selected date: {{ selectedtwo | date: 'fullDate' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -215,7 +218,7 @@
 
                     <!-- Yearly Option -->
                     <div class="everyOption">
-                        <input type="radio" name="calendertype" id="year" (change)="onChange($event)" value="Yearly">
+                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="year" (change)="onChange($event)" value="Yearly">
                         <label for="year">Yearly</label>
                         <div *ngSwitchCase="5" class="allDays yearlyCalender">
                             <div class="yearly">
@@ -223,7 +226,15 @@
                                     [class.selectedQ]="selectedYear === year" (click)="selectYear(year)">
                                     <p>{{ year }}</p>
                                 </div>
+                                <div id="customCal" *ngIf="selectedYear === 'Custom'">
+                                    <mat-card class="demo-inline-calendar-card">
+                                        <mat-calendar [(selected)]="selected" [dateClass]="dateClass"
+                                            [dateFilter]="dateFilter"></mat-calendar>
+                                    </mat-card>
+                                    <p>Selected date: {{selected}}</p>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -233,6 +244,6 @@
     <div id="pageControl">
         <button (click)="prevStep()">Cancel</button>
         <button (click)="nextStep()" *ngIf="count_step==0">Next></button>
-        <button type="submit" *ngIf="count_step==1" (click)="nextStep()">Done</button>
+        <button type="submit" *ngIf="count_step==1" (click)="nextStep()" [disabled]="!isFormValid">Done</button>
     </div>
 </form>

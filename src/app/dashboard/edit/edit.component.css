@@ -1,0 +1,41 @@
+#main {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+#header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+button {
+    padding: 5px 10px;
+    background-color: navy;
+    color: white;
+    border: none;
+
+}
+
+#selectedMail {
+    margin-top: 10px;
+}
+#textarea{
+    width: 90%;
+    height: 50px;
+    background-color: lightgrey;
+    color: black;
+    padding: 10px;
+
+}
+
+#reports {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#reports div{
+    display: flex;
+}

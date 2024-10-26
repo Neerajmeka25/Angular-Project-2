@@ -4,3 +4,85 @@
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.calendar .mat-calendar-header {
+    display: none !important; 
+}
+.calendar .mat-calendar-body tr:first-child {
+    display: none;
+}
+
+.hidden-date {
+    display: none !important; /* Hides the date cells */
+  } 
+
+.disable-date {
+    cursor: not-allowed !important;
+    background-color: darkgrey !important;
+    color: gray !important;
+}
+  
+.monthlyCal .mat-calendar-content{
+    margin-top: 25px !important;
+}
+#time {width: 38%;} 
+.time-input {width: 50%; background-color: lightblue; border: none; font-size: 28px;} 
+.ampm-box {font-size: 15px; padding: 2px 5px; border-radius: unset}
+.selected {
+  background-color: #007bff; 
+  color: white; 
+  border-radius: unset;
+}
+/*
+.time-input {
+    text-align: center;
+    font-size: 36px; 
+    padding: 10px;
+    width: 100%; 
+    background-color: lightblue;
+    border: none; 
+    border-radius: 4px; 
+  }
+  
+  #icredecre {
+
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .ampm-container {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  margin-top: 10px;
+}
+
+.ampm-box {
+  padding: 10px 20px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  margin: 5px 0; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+}
+
+.ampm-box:hover {
+  background-color: #d0e7ff; 
+}
+
+*/
+
+
+  
+ 
+  
+  
+
+/*
+.mat-calendar-controls {
+    display: none !important;
+}
+
+.mat-calendar-body-label {
+    display: none !important;
+}*/

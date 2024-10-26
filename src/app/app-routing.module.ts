@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'edit', component: EditComponent,
+    path: 'edit', component: EditComponent, canActivate: [AuthGuard]
   }
 ];
 

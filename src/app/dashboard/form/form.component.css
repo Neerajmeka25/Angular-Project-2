@@ -229,7 +229,7 @@ p{
     font-size: 25px;
     align-items: center;
     gap: 10px;
-    width: fit-content;
+    width: 38%;
     padding: 5px;
     background-color: lightblue;
     color: navy;
@@ -298,21 +298,24 @@ p{
 
 .selected {
     background-color: navy; 
-    color: white; 
-    border-radius: 15px;
+    color: white;
   }
 .selectedQ {
     background-color: navy; 
     color: white; 
 }
   .calendar {
-    display: inline-block;
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow-x: hidden;
     margin: 0 auto;
   }
+  .demo-inline-calendar-card{
+    width: 100%;
+  }
   .Calender{
+    display: block;
+    width: 100%;
     overflow-x: hidden;
   } 
   .cell.selectedD {
@@ -359,5 +362,54 @@ p{
     padding: 10px;
     cursor: pointer;
   }
+
   
+  
+.toggle{
+    width: 40px;
+    height: 20px;
+    background-color: navy;
+    border-radius: 25px;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    border-radius: 40%;
+    height: 18px;
+    width: 18px;
+    background-color: white;
+}
+
+.one {
+    margin-left: 20px;
+}
+
+.two {
+    margin-right: 10px;
+}
+
+#Weekends {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mat-calendar-header {
+    display: none; 
+  }
+  
+
+  .mat-calendar-controls {
+    display: none;
+    align-items: center;
+    margin: 5% calc(4.7142857143% - 16px);
+}
+
+.mat-calendar-body-label {
+    display: none;
+}
+
+
   

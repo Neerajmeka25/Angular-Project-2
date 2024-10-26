@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit{
     constructor(private fb: FormBuilder,private auth: AuthService,private route: Router){}
     loginForm!: FormGroup;
+    invalidCred: boolean = false;
     ngOnInit(){
         this.loginForm = this.fb.group({
           username: ['', Validators.required],
@@ -22,6 +23,9 @@ export class LoginComponent implements OnInit{
       if(this.auth.validate(username,password)){
         console.log("Success");
         this.route.navigate(['/dashboard']);
+      }
+      else {
+        this.invalidCred = true;
       }
     }
 

@@ -1,26 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
+  import { AuthService } from 'src/app/service/auth.service';
+  import { FormComponent } from '../form/form.component';
+  import { MatDialog } from '@angular/material/dialog';
 
-@Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
-})
-export class EditComponent implements OnInit{
-  
-  loggedInUsername = "NeerajMeka";
-  storeData = localStorage.getItem(this.loggedInUsername);
-  userData : any;
+  @Component({
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.css']
+  })
+  export class EditComponent implements OnInit {
+    todayDate = new Date();
+    day = String(this.todayDate.getDate()).padStart(2, '0');
+    month = String(this.todayDate.getMonth() + 1).padStart(2, '0'); 
+    year = this.todayDate.getFullYear();
+    formattedDate = `${this.day}/${this.month}/${this.year}`;
+    loggedInUsername: string = '';
+    userData: any = {};
+    imageUrl = 'assests/accept.png'
+    constructor(private auth: AuthService,private dialog: MatDialog,
+    ) { }
 
-  ngOnInit(): void {
-    const storedData = localStorage.getItem(this.loggedInUsername);
+    ngOnInit(): void {
+      this.loggedInUsername = this.auth.loggedinuser;
 
-    if (storedData) {
-      this.userData = JSON.parse(storedData);
-      console.log(this.userData);
-      console.log(typeof this.storeData);
-      console.log(typeof this.userData);
-       
+      const storedData = localStorage.getItem(this.loggedInUsername);
+      if (storedData) {
+        this.userData = JSON.parse(storedData);
+      }
+    }
+
+    get reportList() {
+      return this.userData.reports?.reports_list || [];
+    }
+
+    get emailList() {
+      return this.userData.email_list?.email_list || [];
+    }
+    openForm(){
+      this.dialog.open(FormComponent,{
+        
+        width: '500px',
+        height: '500px',
+        data: {
+          username: this.loggedInUsername,
+          reports: this.userData.reports,
+          email_list: this.userData.email_list,
+          schedule_time: this.userData.schedule_time,
+          schedule_date: this.userData.schedule_date,
+        }
+      });
     }
   }
-  
-}

@@ -11,7 +11,7 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    height: 55vh;
     width: 40vw;
     gap: 30px;
     margin-top: 30px;
@@ -20,13 +20,19 @@ form {
     padding-bottom: 50px;
     border-radius: 25px;
 }
-
+@media only screen and (max-width: 600px) {
+    form{
+        width: 100vw;
+        height: 60vh;
+    }
+}
 .input{
     display: flex;
     flex-direction: column;
     gap: 10px;
     justify-content: flex-start;
     width:75%;
+    position: relative;
 }
 
 #submit {
@@ -34,14 +40,17 @@ form {
     padding: 10px 0;
     border: none;
     background-color: navy;
+    font-weight: 700;
     color: white;
     border-radius: 10px;
     cursor: pointer;
     text-transform: uppercase;
 }
 
-button:disabled {
+#submit:disabled{
     background-color: #f0f0f0;
+    color: navy;
+    border: 2px solid navy;
     cursor: not-allowed;
 }
 

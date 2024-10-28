@@ -1,7 +1,7 @@
   import { Component, OnInit } from '@angular/core';
   import { AuthService } from 'src/app/service/auth.service';
   import { FormComponent } from '../form/form.component';
-  import { MatDialog } from '@angular/material/dialog';
+  import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
   @Component({
     selector: 'app-edit',
@@ -17,7 +17,7 @@
     loggedInUsername: string = '';
     userData: any = {};
     imageUrl = 'assests/accept.png'
-    constructor(private auth: AuthService,private dialog: MatDialog,
+    constructor(private auth: AuthService,private dialog: MatDialog, private dialog1: MatDialogRef<EditComponent>
     ) { }
 
     ngOnInit(): void {
@@ -37,10 +37,11 @@
       return this.userData.email_list?.email_list || [];
     }
     openForm(){
+      this.dialog1.close();
       this.dialog.open(FormComponent,{
-        
-        width: '500px',
-        height: '500px',
+        width: '565px',
+        height: '565px',
+        disableClose: true, 
         data: {
           username: this.loggedInUsername,
           reports: this.userData.reports,

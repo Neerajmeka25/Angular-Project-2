@@ -1,9 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+
 *{
     margin: 0;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+div.mat-mdc-dialog-surface.mdc-dialog__surface{
+  scrollbar-width: none;
+}
 .demo-inline-calendar-card {
   background-color: #e8f5ff;
 }
@@ -16,24 +19,208 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: #e8f5ff;
 }
 
-.monthlyCal .mat-calendar-body-cell {/* Default text color */
+.monthlyCal .mat-calendar-body-cell {
   border-radius: 50%;
-  color: white; /* Ensure circular background */
+  color: white; 
+}
+
+/* Unified hover and focus effects */
+.monthlyCal .mat-calendar-body-cell:hover,
+.monthlyCal .mat-calendar-body-cell:focus {
+  background-color: #031c72;
+  color: white !important; 
+}
+
+/* Selected date styles */
+.monthlyCal .mat-calendar-body-cell.selected {
+  background-color: #031c72;
+  color: white !important; 
+} 
+
+.monthlyCal .mat-calendar-header {
+  background-color: #e8f5ff;
+}
+
+.calendar .mat-calendar-header {
+  display: none !important;
+}
+
+.calendar .mat-calendar-body tr:first-child {
+  display: none;
+}
+
+.hidden-date {
+  display: none !important;
+}
+
+/* Styles for disabled dates */
+.disable-date {
+  cursor: not-allowed !important;
+  background-color: darkgrey !important;
+  color: gray !important;
+}
+
+/* Prevent hover effect on disabled dates */
+.monthlyCal .mat-calendar-body-cell.disable-date {
+  pointer-events: none; /* Disable pointer events */
+  background-color: darkgrey !important; /* Keep the same background */
+  color: gray !important; /* Keep the same text color */
+}
+
+/* Calendar content margin */
+.monthlyCal .mat-calendar-content {
+  margin-top: 25px !important;
+}
+
+/* Focus indicator styles */
+.mat-calendar-body-cell-content .mat-focus-indicator {
+  color: white !important;
+}
+
+/* Remove any additional hover effects */
+.mat-calendar .mat-calendar-body-cell:hover {
+  background-color: #031c72 !important; 
+  color: #fff !important; 
+}
+
+.monthlyCal .mat-calendar-body-cell.mat-calendar-body-cell-selected {
+  background-color: #031c72;
+  color: white !important; 
+}
+
+.monthlyCal .mat-calendar-body-cell.mat-calendar-body-cell-selected:hover {
+  background-color: #031c72;
+  color: white !important; 
+}
+
+/* Ensure disabled cells do not show hover */
+.mat-calendar-body-disabled > .mat-calendar-body-cell-content:hover {
+  color: gray !important; 
+}
+
+/* Remove hover effect from focus indicators */
+.mat-calendar-body-cell-content.mat-focus-indicator:hover {
+  color: white !important;
+}
+
+/* .demo-inline-calendar-card {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal .mat-calendar-body {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal .mat-calendar-body-cell {
+  border-radius: 50%;
+  color: white; 
 }
 
 .monthlyCal .mat-calendar-body-cell:hover,
 .monthlyCal .mat-calendar-body-cell:focus {
   background-color: #031c72;
-  color: white !important; /* Change text color on hover */
+  color: white !important; 
 }
 
 .monthlyCal .mat-calendar-body-cell.selected {
   background-color: #031c72;
-  color: white !important; /* Change text color when selected */
+  color: white !important; 
+} 
+
+.monthlyCal .mat-calendar-header {
+  background-color: #e8f5ff;
+}
+
+.calendar .mat-calendar-header {
+  display: none !important;
+}
+
+.calendar .mat-calendar-body tr:first-child {
+  display: none;
+}
+
+.hidden-date {
+  display: none !important;
+}
+
+.disable-date {
+  cursor: not-allowed !important;
+  background-color: darkgrey !important;
+  color: gray !important;
+}
+
+.monthlyCal .mat-calendar-body-cell.disable-date:hover,
+.monthlyCal .mat-calendar-body-cell.disable-date:focus {
+  background-color: darkgrey !important; 
+  color: gray !important; 
+}
+
+.monthlyCal .mat-calendar-content {
+  margin-top: 25px !important;
+}
+
+.mat-calendar-body-disabled:hover {
+  background-color: #e8f5ff;
+}
+
+.mat-calendar-body-cell-content .mat-focus-indicator {
+  color: white !important;
+}
+
+.mat-calendar .mat-calendar-body-cell:hover {
+  background-color: #031c72 !important; 
+  color: #fff !important; 
+}
+
+.monthlyCal .mat-calendar-body-cell.mat-calendar-body-cell-selected {
+  background-color: #031c72;
+  color: white !important; 
+}
+
+.monthlyCal .mat-calendar-body-cell.mat-calendar-body-cell-selected:hover {
+  background-color: #031c72;
+  color: white !important; 
+}
+.mat-calendar-body-disabled > .mat-calendar-body-cell-content:hover {
+  color: gray !important; 
+}
+
+.mat-calendar-body-cell-content.mat-focus-indicator:hover {
+  color: white !important;
+} */
+/*.demo-inline-calendar-card {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal .mat-calendar-body {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal .mat-calendar-body-cell {
+  border-radius: 50%;
+  color: white; 
+}
+
+.monthlyCal .mat-calendar-body-cell:hover,
+.monthlyCal .mat-calendar-body-cell:focus {
+  background-color: #031c72;
+  color: white !important; 
+
+.monthlyCal .mat-calendar-body-cell.selected {
+  background-color: #031c72;
+  color: white !important; 
 }
 
 .monthlyCal .mat-calendar-header {
-  background-color: #e8f5ff;/* Header text color */
+  background-color: #e8f5ff;
 }
 
 .calendar .mat-calendar-header {
@@ -62,10 +249,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: white !important;
 }
 
+.mat-calendar .mat-calendar-body-cell:hover {
+  background-color: #031c72 !important; 
+  color: #fff !important; 
+}
+
 .monthlyCal .mat-calendar-body-cell.mat-calendar-body-cell-selected {
   background-color: #031c72;
-  color: white !important; /* Change text color when selected */
+  color: white !important; }
+
+.mat-calendar-body-disabled > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical):hover {
+  color: white !important;
 }
+.mat-calendar-body-cell-content.mat-focus-indicator:hover {
+  color: white !important;
+}*/
+/*.monthlyCal .mat-calendar-body-cell:hover {
+  color: white !important;
+  background-color: #031c72 !important;
+}*/
 /*
 .calendar .mat-calendar-header {
     display: none !important; 
@@ -87,54 +289,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .monthlyCal .mat-calendar-content{
     margin-top: 25px !important;
 }
-/*
-#time {width: 38%;} 
-.time-input {width: 50%; background-color: lightblue; border: none; font-size: 28px;} 
-.ampm-box {font-size: 15px; padding: 2px 5px; border-radius: unset}
-.selected {
-  background-color: #007bff; 
-  color: white; 
-  border-radius: unset;
-}
-
-.time-input {
-    text-align: center;
-    font-size: 36px; 
-    padding: 10px;
-    width: 100%; 
-    background-color: lightblue;
-    border: none; 
-    border-radius: 4px; 
-  }
-  
-  #icredecre {
-
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .ampm-container {
-  display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  margin-top: 10px;
-}
-
-.ampm-box {
-  padding: 10px 20px; 
-  border: 1px solid #ccc; 
-  border-radius: 4px; 
-  margin: 5px 0; 
-  cursor: pointer; 
-  transition: background-color 0.3s; 
-}
-
-.ampm-box:hover {
-  background-color: #d0e7ff; 
-}
-
-*/
 
 
   

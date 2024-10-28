@@ -45,8 +45,8 @@
                         </select>
                     </div>                    
                     <div id="searchVehicle">
-                        <input type="text" formControlName="vehicleSearch">
                         <img [src]="searchImageUrl" alt="search Image" id="searchImage">
+                        <input type="text" formControlName="vehicleSearch" placeholder="Search">
                     </div>
                 </div>
                 <div id="checkedVehicles">
@@ -58,9 +58,9 @@
                         <input type="checkbox" [checked]="selectedVehicles.includes(vehicle.registration_number)"
                             (change)="onVehicleSelect(vehicle)" />
                         <div>
-                            <p><b>{{ vehicle.registration_number }}</b></p>
-                            <p>VIN: {{ vehicle.vin }}</p>
-                            <p>{{ vehicle.lob_name }}</p>
+                            <p class="regNum">{{ vehicle.registration_number }}</p>
+                            <p style="font-size: 12px;font-weight: 400;color: #747474;" class="vinLob">VIN: {{ vehicle.vin }}</p>
+                            <p style="font-size: 12px;font-weight: 400;color: #747474;" class="vinLob">{{ vehicle.lob_name }}</p>
                         </div>
                     </div>
                 </div>
@@ -80,9 +80,8 @@
             <span *ngIf="reportEmail" id="emailValidation" >*Enter a email</span>
             <span *ngIf="dupEmail" id="emailValidation">{{ dupEmail }}</span>
             <div id="enteredEmails">
-                
                 <div *ngFor="let email of emailList" class="email-item">
-                    <span>{{ email }} </span>
+                    <span class="emails">{{ email }} </span>
                     <button class="remove-button" id="removeEmail" (click)="removeEmail(email)">x</button>
                 </div>
             </div>
@@ -103,9 +102,12 @@
             <div class="eachFormValue">
                 <h5>Report Types</h5>
                 <div class="eachValue">
-                    <p *ngFor="let data of selectedCheckbox; let i = index"><span
-                            *ngIf="i!=0 && i == selectedCheckbox.length-1"> and </span>{{ data }} <span
-                            *ngIf="i < selectedCheckbox.length - 1">,</span></p>
+                    <p *ngFor="let data of selectedCheckbox; let i = index">
+                        <span *ngIf="i!=0 && i == selectedCheckbox.length-1"> and </span>
+                        {{ data }} 
+                        &nbsp;
+                        <span *ngIf="i < selectedCheckbox.length - 1 && i!=selectedCheckbox.length-1 && i!=0">,</span>
+                    </p>
                 </div>
             </div>
             
@@ -170,54 +172,70 @@
                 <div id="selectDate" [ngSwitch]="selectedOption + 1">
                     <p *ngIf="validationMessage" id="validationMessage">{{ validationMessage }}</p>
                     <div class="everyOption">
-                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="week" (change)="onChange($event)" value="Weekly">
-                        <label for="week">Weekly</label>
-                        <div *ngSwitchCase="1" class="allDays">
-                            <div class="allWeeks" *ngFor="let day of filteredDays">
-                                <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">
-                                    {{ day }}
-                                </p>
+                        <div class="inputLabel">
+                            <input type="radio" formControlName="reportInterval" name="reportInterval" id="week" (change)="onChange($event)" value="Weekly">
+                            <label for="week">Weekly</label>
+                        </div>
+                        <div *ngSwitchCase="1">
+                            <i>Select a day to send a Weekly report</i>
+                            <div class="allDays">
+                                <div class="allWeeks" *ngFor="let day of filteredDays">
+                                    <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">
+                                        {{ day }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="everyOption">
-                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="twoWeek" (change)="onChange($event)"
+                        <div class="inputLabel">
+                            <input type="radio" formControlName="reportInterval" name="reportInterval" id="twoWeek" (change)="onChange($event)"
                             value="Every 2 Weeks">
-                        <label for="twoWeek">Every 2 Weeks</label>
-                        <div *ngSwitchCase="2" class="allDays">
-                            <div class="allWeeks" *ngFor="let day of filteredDays">
-                                <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">
-                                    {{ day }}
-                                </p>
+                            <label for="twoWeek">Every 2 Weeks</label>
+                        </div>
+                        <div *ngSwitchCase="2">
+                            <i>Select a day to send a Fortnightly report</i>
+                            <div class="allDays">
+                                <div class="allWeeks" *ngFor="let day of filteredDays">
+                                    <p [ngClass]="{'selected': selectedDay === day}" (click)="selectValue(day)">
+                                        {{ day }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="everyOption">
-                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="month" (change)="onChange($event)" value="Monthly">
-                        <label for="month">Monthly</label>
-                        <div *ngSwitchCase="3" class="allDays Calender">
-                            <div class="calendar">
-                                <mat-card class="demo-inline-calendar-card">
-                                    <mat-calendar [(selected)]="selected" [dateClass]="dateClass"
-                                        [dateFilter]="dateFilter" class="monthlyCal">
-                                        <mat-calendar-header>
-                                            <div></div>
-                                        </mat-calendar-header>
-                                    </mat-calendar>
-                                </mat-card>
+                        <div class="inputLabel">
+                            <input type="radio" formControlName="reportInterval" name="reportInterval" id="month" (change)="onChange($event)" value="Monthly">
+                            <label for="month">Monthly</label>
+                        </div>
+                        <div *ngSwitchCase="3">
+                            <i>Select a day to send a Monthly report</i>
+                            <div class="allDays Calender">
+                                <div class="calendar">
+                                    <mat-card class="demo-inline-calendar-card">
+                                        <mat-calendar [(selected)]="selected" [dateClass]="dateClass"
+                                            [dateFilter]="dateFilter" class="monthlyCal">
+                                            <mat-calendar-header>
+                                                <div></div>
+                                            </mat-calendar-header>
+                                        </mat-calendar>
+                                    </mat-card>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="everyOption">
-                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="quarter" (change)="onChange($event)"
+                        <div class="inputLabel">
+                            <input type="radio" formControlName="reportInterval" name="reportInterval" id="quarter" (change)="onChange($event)"
                             value="Quarterly">
-                        <label for="quarter">Quarterly</label>
+                            <label for="quarter">Quarterly</label>
+                        </div>
                         <div *ngSwitchCase="4" class="allDays quaterlyCalender">
                             <div class="quarterly">
                                 <div *ngFor="let quarter of quarters" class="eachQuarter"
                                     [class.selectedQ]="selectedQuarter === quarter" (click)="selectQuarter(quarter)">
-                                    <p>{{ quarter }}</p>
+                                    <p style="margin-left: 40px;font-size: 14px;font-weight: 400;">{{ quarter }}</p>
                                 </div>
                                 <div *ngIf="selectedQuarter === 'Custom'" style="width: 100%;">
                                     <mat-card class="demo-inline-calendar-card">
@@ -231,13 +249,15 @@
 
                     <!-- Yearly Option -->
                     <div class="everyOption">
-                        <input type="radio" formControlName="reportInterval" name="reportInterval" id="year" (change)="onChange($event)" value="Yearly">
-                        <label for="year">Yearly</label>
+                        <div class="inputLabel">
+                            <input type="radio" formControlName="reportInterval" name="reportInterval" id="year" (change)="onChange($event)" value="Yearly">
+                            <label for="year">Yearly</label>
+                        </div>
                         <div *ngSwitchCase="5" class="allDays yearlyCalender">
                             <div class="yearly">
                                 <div *ngFor="let year of yearly"  class="eachYear"
                                     [class.selectedQ]="selectedYear === year" (click)="selectYear(year)">
-                                    <p>{{ year }}</p>
+                                    <p style="margin-left: 40px;font-size: 14px;font-weight: 400;">{{ year }}</p>
                                 </div>
                                 <div id="customCal" *ngIf="selectedYear === 'Custom'">
                                     <mat-card class="demo-inline-calendar-card">

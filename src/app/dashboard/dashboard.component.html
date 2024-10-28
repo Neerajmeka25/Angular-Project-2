@@ -9,4 +9,4 @@
 <button mat-raised-button color="primary" (click)="openForm()" *ngIf="!alreadyFilled">Add Schedule Report</button>
 <p *ngIf="alreadyFilled">Already Filled the form!!!</p>
 <br>
-<button (click)="edit()">Edit</button>
+<button (click)="edit()" *ngIf="alreadyFilled">Edit</button>

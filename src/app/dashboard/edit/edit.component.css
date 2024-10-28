@@ -4,10 +4,20 @@
     flex-direction: column;
     justify-content: center;
     gap: 20px;
+    font-family: 'Open Sans';
 }
 #header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+#header h4 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#header div{
+    display: flex;
     align-items: center;
 }
 #editPng{
@@ -17,7 +27,9 @@
 button {
     background-color: white;
     border: none;
-    color: #00a4f4;
+    color: #3B96F3;
+    font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
 }
 #reports {
@@ -34,5 +46,10 @@ button {
     background-color: lightgrey;
     color: black;
     padding: 10px;
+}
 
+p{
+    font-size: 14px;
+    font-family: 400;
+    color: #242424;
 }

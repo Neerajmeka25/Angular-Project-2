@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { VehicleService } from 'src/app/service/vehicle.service';
 import { EditComponent } from '../edit/edit.component';
 import { AuthService } from 'src/app/service/auth.service';
-
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -137,6 +136,9 @@ export class FormComponent implements OnInit {
 
   showInput() {
     this.showEmail = !this.showEmail;
+    if(this.ButtonValue == 'Cancel'){
+      this.dupEmail = '';
+    }
     this.ButtonValue = this.showEmail ? 'Cancel' : '+ Add';
   }
 
@@ -154,9 +156,7 @@ export class FormComponent implements OnInit {
   dupEmail: string = '';
   putEmail() {
     const enteredEmail = this.ScheduleReport.get('userEmail')?.value;
-    console.log(enteredEmail);
-    
-
+    //console.log(enteredEmail);
     if (this.emailList.length >= 5) {
       this.dupEmail = 'Cannot add more than 5 emails.';
       return;
@@ -167,12 +167,11 @@ export class FormComponent implements OnInit {
       this.ScheduleReport.get('userEmail')?.reset();
       return;
     }
-
-    if (enteredEmail) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailPattern.test(enteredEmail)) {
       this.emailList.push(enteredEmail);
       this.ScheduleReport.get('userEmail')?.reset();
-      console.log(this.emailList);
-      
+      //console.log(this.emailList);
       this.dupEmail = '';
     } else {
       this.dupEmail = '*Enter a valid email';
@@ -215,8 +214,7 @@ export class FormComponent implements OnInit {
           }
           else {
             this.saveToLocalStorage();
-            this.dialog.close();
-            this.openlast();
+            this.dialog.close(true);
             console.log("data saved");
           }
         }
@@ -225,6 +223,7 @@ export class FormComponent implements OnInit {
 
   closeForm(){
     this.dialog.close();
+
   }
   reportCheckBox: boolean = false;
   reportVehicles: boolean = false;
@@ -422,11 +421,6 @@ return true;
 
   openlast() {
     this.dialog1.open(EditComponent, {
-      // data: {
-      //   reports: this.checkList,
-      //   vehicle: this.selectedVehicles,
-      //   email: this.emails
-      // }
       width: '500px',
       height: '250px'
     });
@@ -441,22 +435,6 @@ return true;
   }
 
   
-  // saveToLocalStorage() {
-  //   const reportData = {
-  //     dataUser: this.username,
-  //     selectedCheckbox: this.selectedCheckbox,
-  //     emailList: this.emailList,
-  //     selectedVehicles: this.selectedVehicles,
-  //     //scheduledTime: this.formattedTime,
-  //     selectedDay: this.selectedDay,
-  //     selectedDayCal: this.selectedDayCal,
-  //     value: this.value,
-  //     selectedQuarter: this.selectedQuarter,
-  //     selectedYear: this.selectedYear
-  //   };
-
-  //   localStorage.setItem(this.username, JSON.stringify(reportData));
-  // }
   saveToLocalStorage() {
     const reportData = {
       dataUser: this.username,

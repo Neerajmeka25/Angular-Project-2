@@ -1,31 +1,31 @@
 <div id="main">
     <div id="header">
-        <h4>Schedule Reports of {{loggedInUsername ? loggedInUsername : ''}}</h4>
+        <h4>Schedule Reports</h4>
         <div (click)="openForm()">
             <img src="assets/pen.png" alt="" id="editPng">
             <button>Edit</button>
         </div>
     </div>
-    <div id="reports">
+    <div id="reports" style="margin-top: 15px;">
         <p>
             Your
             <span *ngFor="let report of reportList; let last = last; let i = index">
                 <strong><span *ngIf="last && reportList.length > 1"> and </span>{{ report }}</strong>
-                <span *ngIf="!last && reportList.length > 1">, </span>
+                <span *ngIf="!last && reportList.length > 1 && i!=0">, </span>
 
             </span>
             will be sent to
         </p>
     </div>
 
-    <div id="selectedMail">
+    <div id="selectedMail" style="margin-top: -12px;">
         <p *ngFor="let email of emailList; let last = last; let i = index">
             {{email}}
             <span *ngIf="!last && email.length > 1">, </span>
             <span *ngIf="last">.</span>
         </p>
     </div>
-    <div id="dateTime">
+    <div id="dateTime" style="margin-top: 5px;">
         <div id="reportSchedule">
             <p>
                 You will get

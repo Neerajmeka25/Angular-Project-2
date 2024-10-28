@@ -1,25 +1,32 @@
 #main {
-    padding: 10px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+    gap: 20px;
 }
 #header {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
-button {
-    padding: 5px 10px;
-    background-color: navy;
-    color: white;
-    border: none;
-
+#editPng{
+    height: 15px;
+    cursor: pointer;    
 }
-
+button {
+    background-color: white;
+    border: none;
+    color: #00a4f4;
+    cursor: pointer;
+}
+#reports {
+    display: flex;
+    flex-direction: row;
+}
 #selectedMail {
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
 }
 #textarea{
     width: 90%;
@@ -28,14 +35,4 @@ button {
     color: black;
     padding: 10px;
 
-}
-
-#reports {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#reports div{
-    display: flex;
 }

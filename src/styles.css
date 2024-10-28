@@ -4,6 +4,69 @@
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.demo-inline-calendar-card {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal .mat-calendar-body {
+  background-color: #e8f5ff;
+}
+
+.monthlyCal .mat-calendar-body-cell {/* Default text color */
+  border-radius: 50%;
+  color: white; /* Ensure circular background */
+}
+
+.monthlyCal .mat-calendar-body-cell:hover,
+.monthlyCal .mat-calendar-body-cell:focus {
+  background-color: #031c72;
+  color: white !important; /* Change text color on hover */
+}
+
+.monthlyCal .mat-calendar-body-cell.selected {
+  background-color: #031c72;
+  color: white !important; /* Change text color when selected */
+}
+
+.monthlyCal .mat-calendar-header {
+  background-color: #e8f5ff;/* Header text color */
+}
+
+.calendar .mat-calendar-header {
+  display: none !important;
+}
+
+.calendar .mat-calendar-body tr:first-child {
+  display: none;
+}
+
+.hidden-date {
+  display: none !important;
+}
+
+.disable-date {
+  cursor: not-allowed !important;
+  background-color: darkgrey !important;
+  color: gray !important;
+}
+
+.monthlyCal .mat-calendar-content {
+  margin-top: 25px !important;
+}
+
+.mat-calendar-body-cell-content .mat-focus-indicator {
+  color: white !important;
+}
+
+.monthlyCal .mat-calendar-body-cell.mat-calendar-body-cell-selected {
+  background-color: #031c72;
+  color: white !important; /* Change text color when selected */
+}
+/*
 .calendar .mat-calendar-header {
     display: none !important; 
 }
@@ -12,7 +75,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .hidden-date {
-    display: none !important; /* Hides the date cells */
+    display: none !important; /* Hides the date cells 
   } 
 
 .disable-date {
@@ -24,6 +87,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .monthlyCal .mat-calendar-content{
     margin-top: 25px !important;
 }
+/*
 #time {width: 38%;} 
 .time-input {width: 50%; background-color: lightblue; border: none; font-size: 28px;} 
 .ampm-box {font-size: 15px; padding: 2px 5px; border-radius: unset}
@@ -32,7 +96,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: white; 
   border-radius: unset;
 }
-/*
+
 .time-input {
     text-align: center;
     font-size: 36px; 

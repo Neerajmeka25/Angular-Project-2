@@ -11,18 +11,46 @@ form {
 
 #header {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#header div{
+    display: flex;
     gap: 10px;
     align-items: center;
-    }
-    
+
+}
+
+#reportHeader {
+    margin: -10px 0px;
+    font-weight: 500;
+}
+
+#checkBoxValidation {
+    color: red;
+    margin: 0px 0 -22px 0;
+    font-size: 12px;
+}
 #checkedBoxList {
+    margin: -7px 0px;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+input[type="checkbox"] {
+    accent-color: #031c72;
+    width: 12px;
+    height: 12px;
+    transform: scale(1.5);
+    margin-right: 5px;
+    margin-left: 2px;
+}
+
 .checkbox label {
-    margin-left: 10px;
+    margin-left: 8px;
+    font-size: 15px;
 }
 .checkbox{
     margin: 15px 0px;
@@ -32,18 +60,14 @@ form {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 15px;
 }
 #emailHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-img{
-    height: 20px;
-    cursor: pointer;
-  }
-button {
+/*#enterEmail {
     padding: 10px 20px;
     border-radius: 4px;
     border: none;
@@ -51,6 +75,29 @@ button {
     color: white;
     text-transform: capitalize;
     cursor: pointer;
+}*/
+#infoPng{
+    height: 20px;
+    cursor: pointer;
+}
+.closePng{
+    height: 15px;
+    cursor: pointer;
+}
+
+#editPng{
+    height: 15px;
+    cursor: pointer;
+}
+#enterEmail {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: #fafafb;
+    color: #031c72;
+    text-transform: capitalize;
+    cursor: pointer;
+    font-weight: bolder;
 }
 
 #addEmail{
@@ -60,27 +107,56 @@ button {
     gap: 15px;
 }
 #inputEmail {
-    padding: 8px;
+    padding: 7px;
+    border-radius: 10px;
 }
 #addingEmail{
     padding: 8px 20px;
     cursor: pointer;
+    background-color: #031c72 ;
+    color: #fafafb;
+    border-radius: 4px;
+    border: none;
 }
 #pageControl {
-    padding-right: 60px;
+    padding: 15px;
+    padding-right: 30px;
     display: flex;
     justify-content: flex-end;
     gap: 20px;
     align-items: center;
 }
 
+#cancelBtn{
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: #031c72;
+    background-color: white;
+    border: 1px solid #031c72;
+    text-transform: capitalize;
+    cursor: pointer;
+    font-weight: 700;
+    box-sizing: border-box;
+}
+
+.nextBtn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: #031c72;
+    border: 1px solid #031c72;
+    color: white;
+    text-transform: capitalize;
+    cursor: pointer;
+    font-weight: 700;
+}
 
 #enteredEmails {
-    width: 100%;
+    width: 96%;
     height: 100px;
     padding: 0;
-    background-color: #f0f0f0;
-    padding: 5px;
+    border: 1px solid black;
+    padding: 10px 5px 10px 10px;
     border-radius: 5px;
     font-size: 14px;
     display: flex;
@@ -92,49 +168,69 @@ button {
 .email-item {
     width: fit-content;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-around;
+    gap: 5px;
     flex-wrap: wrap;
     background-color: white;
     padding: 5px 10px;
     border-radius: 15px;
     margin: 0 10px 0 0;
+    border: 1px solid black;
 }
 
 #removeEmail{
-    background-color: white;
+    background-color: #031c72;
     width: 15px;
     height: 15px;
     border: none;
-    color: black;
+    color: white;
+    line-height: 0px;
+    border-radius: 50%;
     padding: 0;
+    cursor: pointer;
 }
 
+#emailValidation{
+    color: red;
+    font-size: 12px;
+    margin: -9px 0 0 0;
+}
+
+#vehicleSelected{
+    font-size: 13px;
+    margin-left: 7px;
+}
 
 #wholeVehicle {
     width: 100%;
-    height: 150px;
-    overflow: scroll;
-    overflow-x: hidden;
+    height: 300px;
     padding-right: 0;
-    border: 1px solid black;
     border-radius: 10px;
 }
 
-#mainVehicle {
-    padding: 5px;
-    
-    
+#vehicleHeader {
+    margin-top: 8px;
 }
-
+#mainVehicle {
+    padding: 15px 10px 12px 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+#placeFilter {
+    width: 45%;
+    border-radius: 5px;
+}
 #searchVehicle {
-    width: 50%;
+    width: 45%;
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding: 5px 10px;
     border: 1px solid black;
     gap: 5px;
+    border-radius: 5px;
 }
 #vehicleFilters {
     width: 100%;
@@ -143,14 +239,22 @@ button {
     justify-content: space-around;
 }
 
+#vehicleValidation {
+    color: red;
+    margin: -15px 0 -30px 0;
+    font-size: 12px;
+}
+
 select{
+    width: 100%;
+    border-radius: 5px;
     padding: 6.8px 10px;
-    width: 150px;
     text-align: center;
     border: 1px solid black;
 }
 #searchVehicle input {
     background-color: white;
+    width: 90%;
     border: none;
 }
 
@@ -166,6 +270,9 @@ select{
     justify-content: center;
     flex-wrap: wrap;
     margin-top: 5px;
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 175px;
 }
 #singleVehicle {
     width: 45%;
@@ -174,27 +281,55 @@ select{
     justify-content: center;
     flex-wrap: wrap;
     gap: 5px;
-    padding: 5px;
-    background-color: lightblue;
+    padding: 10px 5px;
+    background-color: white;
     margin: 2.5px;
     border-radius: 5px;
 }
-p{
+#singleVehicle.selected {
+    background-color: #e8f5ff; 
+}
+#singleVehicle div p{
+    color: black;
     font-size: 12px;
 }
-
+#validationMessage{
+    color: red;
+}
 #header2{
     display: flex;
-    gap: 10px;
     align-items: center;
     justify-content: space-between;
 }
+#header2 div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
+#header2 div div {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+}
+#header2 div div button {
+    background-color: white;
+    border: none;
+    color: #00a4f4;
+    cursor: pointer;
+}
+#searchImage {
+    height: 20px;
+    cursor: pointer;
+}
 #formValues{
     display: flex;
     flex-direction: column;
 }
-
+.formPart p {
+    font-size: 13px;
+}
 .eachFormValue {
     display: flex;
     align-items: flex-start;
@@ -223,8 +358,80 @@ p{
     margin: 0 5px 0 0 ;
 }
 
+#wholeTime {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+}
 
-#time {
+
+#icredecre {
+    display: flex;
+    flex-direction: column;
+}
+
+#increment, #decrement {
+    font-size: 15px;
+}
+#timePart {
+    width: 160px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #031c72;
+    font-weight: 800;
+}
+#inputTime {
+    width: 80%;
+}
+#onlyClock {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px;
+    background-color: #e8f5ff;
+    border-radius: 10px;
+}
+.time-input {
+    width: 100%;
+    background-color: #e8f5ff;
+    border: none;
+    font-size: 28px;
+}
+
+.ampm-container {
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ampm-box {
+    width: 50px;
+    background-color: #e8f5ff;
+    font-size: 15px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    cursor: pointer; 
+    text-align: center;
+}
+
+.upAndDown{
+    cursor: pointer;
+    height: 10px;
+}
+
+.ampm-box.selected {
+    background-color: #031c72; 
+    width: 50px;
+    color: white; 
+    border-radius: 10px;
+    padding: 2px 5px;
+}
+
+
+/* #time {
     display: flex;
     font-size: 25px;
     align-items: center;
@@ -249,7 +456,7 @@ p{
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
+} */
 
 #title{
     margin-top: 20px;
@@ -276,9 +483,10 @@ p{
     display: flex;
     gap: 10px;
     align-items: center;
-    background-color: lightblue;
+    background-color: #e8f5ff;
     overflow-x: scroll;
     margin-top: 10px;
+    border-radius: 10px;
 }
 
 .allWeeks{
@@ -291,17 +499,18 @@ p{
 }
 
 .allWeeks p:hover {
-    background-color: navy;
+    background-color: #031c72;
     color: white;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .selected {
-    background-color: navy; 
+    background-color: #031c72; 
+    border-radius: 10px;
     color: white;
   }
 .selectedQ {
-    background-color: navy; 
+    background-color: #031c72; 
     color: white; 
 }
   .calendar {
@@ -365,29 +574,31 @@ p{
 
   
   
-.toggle{
-    width: 40px;
-    height: 20px;
-    background-color: navy;
-    border-radius: 25px;
-    padding: 2px;
+ .mainToggle {
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
+.toggle {
+    width: 40px;
+    height: 20px;
+    background-color: #e8f5ff;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 .circle {
-    border-radius: 40%;
-    height: 18px;
-    width: 18px;
-    background-color: white;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    background-color: #031c72;
+    transition: transform 0.3s ease;
 }
 
-.one {
-    margin-left: 20px;
-}
-
-.two {
-    margin-right: 10px;
+.active {
+    transform: translateX(20px);
 }
 
 #Weekends {

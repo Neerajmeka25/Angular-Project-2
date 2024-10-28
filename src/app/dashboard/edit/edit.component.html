@@ -1,23 +1,59 @@
 <div id="main">
     <div id="header">
         <h4>Schedule Reports of {{loggedInUsername ? loggedInUsername : ''}}</h4>
-        <button (click)="openForm()">Edit</button>
-    </div>
-    <div id="selectedMail">
-        <h5>Selected reports will be sent to:</h5>
-        <div id="textarea">
-            <div *ngFor="let email of emailList">
-                <p>{{email}}</p>
-            </div>
+        <div (click)="openForm()">
+            <img src="assets/pen.png" alt="" id="editPng">
+            <button>Edit</button>
         </div>
     </div>
-    <div id="dateTime">
-        <p>You have scheduled the <strong>{{userData.schedule_interval}}</strong> Report on <strong>{{userData.schedule_day}}</strong> Dated<strong>{{userData.schedule_date}}</strong>, at <strong>{{userData.schedule_time}}</strong>.</p>
-    </div>
     <div id="reports">
-        <div *ngFor="let report of reportList">
-            <img src="assets\accept.png" alt="" style="height: 15px;">
-            <p>{{report}}</p>
+        <p>
+            Your
+            <span *ngFor="let report of reportList; let last = last; let i = index">
+                <strong><span *ngIf="last && reportList.length > 1"> and </span>{{ report }}</strong>
+                <span *ngIf="!last && reportList.length > 1">, </span>
+
+            </span>
+            will be sent to
+        </p>
+    </div>
+
+    <div id="selectedMail">
+        <p *ngFor="let email of emailList; let last = last; let i = index">
+            {{email}}
+            <span *ngIf="!last && email.length > 1">, </span>
+            <span *ngIf="last">.</span>
+        </p>
+    </div>
+    <div id="dateTime">
+        <div id="reportSchedule">
+            <p>
+                You will get
+                "<strong>{{ userData.schedule_interval }}</strong>" report on
+                <span *ngIf="userData.schedule_interval === 'Monthly'">
+                    <strong>{{ userData.schedule_date | date: 'dd' }}</strong>
+                </span>
+                <span *ngIf="userData.schedule_interval === 'Quarterly'">
+                    <strong>
+                        <span *ngIf="userData.selectedQuater === 'First Day of the Quarter'">First day of the quarter</span>
+                        <span *ngIf="userData.selectedQuater === 'Last Day of the Quarter'">Last day of the quarter</span>
+                    </strong>
+                        <span *ngIf="userData.selectedQuater !== 'First Day of the Quarter' && userData.selectedQuater !== 'Last Day of the Quarter'">
+                        <strong>{{ userData.schedule_date | date: 'dd' }}</strong> date of every quarter
+                        </span>
+                </span>
+                <span *ngIf="userData.schedule_interval === 'Weekly' || userData.schedule_interval === 'Every 2 Weeks'">
+                    <strong>{{ userData.schedule_day }}</strong>
+                </span>
+                <span *ngIf="userData.schedule_interval === 'Yearly'">
+                    <span *ngIf="userData.selectedYear === 'First Day of the Year'">First day of the year</span>
+                    <span *ngIf="userData.selectedYear === 'Last Day of the Year'">Last day of the year</span>
+                    <span *ngIf="userData.selectedYear !== 'First Day of the Year' && userData.selectedYear !== 'Last Day of the Year'">
+                        on <strong>{{ userData.schedule_date | date: 'dd/MM' }}</strong>
+                    </span>
+                </span>
+                at <strong>{{ userData.schedule_time }}</strong> <strong>{{ userData.schedule_time_ampm }}</strong>.
+            </p>
         </div>
     </div>
 </div>

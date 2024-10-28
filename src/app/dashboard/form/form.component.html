@@ -1,12 +1,14 @@
 <form [formGroup]="ScheduleReport" class="mat-dialog-container">
     <div class="formPart" *ngIf="count_step==0">
         <div id="header">
-            <h2>Schedule Reports</h2>
-            <img [src]="imageUrl" alt="information png">
+            <div>
+                <h2>Schedule Reports</h2>
+                <img [src]="imageUrl" alt="information png" id="infoPng">
+            </div>
+            <img src="assets/close.png" alt="closeSchedule" class="closePng" (click)="closeForm()">
         </div>
-        <h4>Select Required Report Types</h4>
-        <span *ngIf="reportCheckBox" style="color: red;margin: -15px 0 -30px 0;
-    font-size: 12px;">*Select a Report Type</span>
+        <h4 id="reportHeader">Select Required Report Types</h4>
+        <span *ngIf="reportCheckBox" id="checkBoxValidation">*Select a Report Type</span>
         <div id="checkedBoxlist">
             <div class="checkbox" *ngFor="let data of checkedItem">
                 <input type="checkbox" [formControlName]="data.formName" value="data.vehicle"
@@ -33,28 +35,27 @@
             </div>
         </div> -->
         <div id="wholeVehicle" *ngIf="showVehicleList">
-            <h4 style="margin-left: 15px;
-    margin-top: 8px;">Select Vehicles</h4>
-            <span *ngIf="reportVehicles" style="color: red;margin: -15px 0 -30px 0;
-    font-size: 12px;">*Select a Vehicle</span>
+            <h4 id="vehicleHeader">Select Vehicles</h4>
+            <span *ngIf="reportVehicles" id="vehicleValidation">*Select a Vehicle</span>
             <div id="mainVehicle">
                 <div id="vehicleFilters">
                     <div id="placeFilter">
                         <select name="vehicles" id="selectedPlace" formControlName="branch">
-                            <option value="All Vehicles">All Vehicles</option>
-                            <option value="mumbai">Mumbai</option>
-                            <option value="thane">Thane</option>
-                            <option value="pune">Pune</option>
+                            <option *ngFor="let branch of branches" [value]="branch.value">{{ branch.label }}</option>
                         </select>
-                    </div>
+                    </div>                    
                     <div id="searchVehicle">
                         <input type="text" formControlName="vehicleSearch">
-                        <img [src]="searchImageUrl" alt="search Image">
+                        <img [src]="searchImageUrl" alt="search Image" id="searchImage">
                     </div>
                 </div>
+                <div id="checkedVehicles">
+                    <span id="vehicleSelected">{{selectedVehicles.length}}/{{vehicleList.length}} selected</span>
+                </div>
                 <div id="vehicleData">
-                    <div *ngFor="let vehicle of filteredVehicles" id="singleVehicle">
-                        <input type="checkbox" [checked]="selectedVehicles.includes(vehicle.vin)"
+                    <p *ngIf="filteredVehicles.length == 0">No Vehicles Found</p>
+                    <div *ngFor="let vehicle of filteredVehicles" id="singleVehicle" [ngClass]="{'selected': selectedVehicles.includes(vehicle.registration_number)}">
+                        <input type="checkbox" [checked]="selectedVehicles.includes(vehicle.registration_number)"
                             (change)="onVehicleSelect(vehicle)" />
                         <div>
                             <p><b>{{ vehicle.registration_number }}</b></p>
@@ -71,16 +72,18 @@
                 <h4>Enter Email Ids</h4>
                 <button id="enterEmail" (click)="showInput()">{{ButtonValue}}</button>
             </div>
-            <span *ngIf="reportEmail" style="color: red;
-    font-size: 12px;">*Enter a email</span>
+            
             <div id="addEmail" *ngIf="showEmail">
                 <input type="email" formControlName="userEmail" id="inputEmail">
                 <button id="addingEmail" (click)="putEmail()">Add</button>
             </div>
+            <span *ngIf="reportEmail" id="emailValidation" >*Enter a email</span>
+            <span *ngIf="dupEmail" id="emailValidation">{{ dupEmail }}</span>
             <div id="enteredEmails">
+                
                 <div *ngFor="let email of emailList" class="email-item">
                     <span>{{ email }} </span>
-                    <button class="remove-button" id="removeEmail" (click)="removeEmail(email)">X</button>
+                    <button class="remove-button" id="removeEmail" (click)="removeEmail(email)">x</button>
                 </div>
             </div>
         </div>
@@ -88,7 +91,13 @@
     <div class="formPart" *ngIf="count_step==1">
         <div id="header2">
             <h2>Schedule Reports</h2>
-            <button (click)="prevStep()">Edit</button>
+            <div>
+                <div (click)="prevStep()">
+                    <img src="assets/pen.png" alt="" id="editPng">
+                    <button>Edit</button>
+                </div>
+                <img src="assets/close.png" alt="closeSchedule" class="closePng" (click)="closeForm()">
+            </div>
         </div>
         <div id="formValues">
             <div class="eachFormValue">
@@ -99,12 +108,14 @@
                             *ngIf="i < selectedCheckbox.length - 1">,</span></p>
                 </div>
             </div>
+            
             <div class="eachFormValue">
                 <h5>Selected Vehicles</h5>
                 <div class="eachValue">
                     <p *ngIf="selectedVehicles.length === 0">None</p>
                     <p *ngIf="selectedVehicles.length === 1">{{ selectedVehicles[0] }}</p>
-                    <p *ngIf="selectedVehicles.length > 1">{{ selectedVehicles[0] }} and {{ additionalCount }} others
+                    <p *ngIf="selectedVehicles.length === 2">{{selectedVehicles[0]}} and {{selectedVehicles[1]}}</p>
+                    <p *ngIf="selectedVehicles.length > 2">{{ selectedVehicles[0] }},{{ selectedVehicles[1] }} and {{ additionalCount }} others
                     </p>
                 </div>
             </div>
@@ -119,41 +130,45 @@
             </div>
 
         </div>
+        <hr>
         <div id="settingTimenDate">
-            <div id="wholeTime">
+            <div id="wholeTime"> 
                 <h5>Set Time</h5>
                 <div id="timePart">
-                  <div id="time">
-                    <input matInput type="text" formControlName="time" class="time-input" />
-                    <div id="icredecre">
-                      <span id="increment" (click)="increment()">&#8593;</span>
-                      <span id="decrement" (click)="decrement()">&#8595;</span>
+                    <div id="onlyClock">
+                            <div id="inputTime">
+                                <input matInput type="text" formControlName="time" class="time-input" />
+                            </div>
+                            <div id="icredecre">
+                                <span id="increment" (click)="increment()"><img src="assets/up.png" alt="" class="upAndDown"></span>
+                                <span id="decrement" (click)="decrement()"><img src="assets/down.png" alt="" class="upAndDown"></span>
+                            </div>
                     </div>
                     <div class="ampm-container">
-                        <div class="ampm-box" (click)="ampm = 'AM'; updateTimeInput()" [class.selected]="ampm === 'AM'">
-                          AM
-                        </div>
-                        <div class="ampm-box" (click)="ampm = 'PM'; updateTimeInput()" [class.selected]="ampm === 'PM'">
-                          PM
-                        </div>
+                            <div class="ampm-box" (click)="ampm = 'AM'; updateTimeInput()" [class.selected]="ampm === 'AM'">
+                                AM
+                            </div>
+                            <div class="ampm-box" (click)="ampm = 'PM'; updateTimeInput()" [class.selected]="ampm === 'PM'">
+                                PM
+                            </div>
                     </div>
-                  </div>
                 </div>
-              </div>
+            </div>
+            
             <div id="calender">
                 <div id="title">
                     <h5>Set Time Interval</h5>
                     <div id="Weekends">
                         <p>Skip Weekends</p>
-                        <div class="mainToggle">
+                        <div class="mainToggle"> 
                             <div class="toggle" (click)="Toggle()">
-                                <div class="circle one" *ngIf="toggleOnOff"></div>
-                                <div class="circle two" *ngIf="!toggleOnOff"></div>
+                                <div class="circle" [ngClass]="{'active': toggleOnOff}"></div>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
                 <div id="selectDate" [ngSwitch]="selectedOption + 1">
+                    <p *ngIf="validationMessage" id="validationMessage">{{ validationMessage }}</p>
                     <div class="everyOption">
                         <input type="radio" formControlName="reportInterval" name="reportInterval" id="week" (change)="onChange($event)" value="Weekly">
                         <label for="week">Weekly</label>
@@ -190,7 +205,6 @@
                                         </mat-calendar-header>
                                     </mat-calendar>
                                 </mat-card>
-                                <p>Selected date: {{ selected | date: 'fullDate' }}</p>
                             </div>
 
                         </div>
@@ -208,9 +222,8 @@
                                 <div *ngIf="selectedQuarter === 'Custom'" style="width: 100%;">
                                     <mat-card class="demo-inline-calendar-card">
                                         <mat-calendar [(selected)]="selected" [dateClass]="dateClass"
-                                            [dateFilter]="dateFilter" [monthFilter]="monthFilter"></mat-calendar>
+                                            [dateFilter]="dateFilter" [monthFilter]="monthFilter" class="monthlyCal"></mat-calendar>
                                     </mat-card>
-                                    <p>Selected date: {{ selectedtwo | date: 'fullDate' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -222,16 +235,15 @@
                         <label for="year">Yearly</label>
                         <div *ngSwitchCase="5" class="allDays yearlyCalender">
                             <div class="yearly">
-                                <div *ngFor="let year of yearly" class="eachYear"
+                                <div *ngFor="let year of yearly"  class="eachYear"
                                     [class.selectedQ]="selectedYear === year" (click)="selectYear(year)">
                                     <p>{{ year }}</p>
                                 </div>
                                 <div id="customCal" *ngIf="selectedYear === 'Custom'">
                                     <mat-card class="demo-inline-calendar-card">
                                         <mat-calendar [(selected)]="selected" [dateClass]="dateClass"
-                                            [dateFilter]="dateFilter"></mat-calendar>
+                                            [dateFilter]="dateFilter" class="monthlyCal"></mat-calendar>
                                     </mat-card>
-                                    <p>Selected date: {{selected}}</p>
                                 </div>
                             </div>
 
@@ -242,8 +254,8 @@
         </div>
     </div>
     <div id="pageControl">
-        <button (click)="prevStep()">Cancel</button>
-        <button (click)="nextStep()" *ngIf="count_step==0">Next></button>
-        <button type="submit" *ngIf="count_step==1" (click)="nextStep()" [disabled]="!isFormValid">Done</button>
+        <button (click)="prevStep()" id="cancelBtn">Cancel</button>
+        <button (click)="nextStep()" *ngIf="count_step==0" class="nextBtn">Next ></button>
+        <button type="submit" *ngIf="count_step==1" (click)="nextStep()" [disabled]="!isFormValid" class="nextBtn">Done</button>
     </div>
 </form>

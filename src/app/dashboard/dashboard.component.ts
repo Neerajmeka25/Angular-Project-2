@@ -37,7 +37,7 @@ export class DashboardComponent {
     //this.route.navigate(["/edit"]);
     this.dialog.open(EditComponent,{
       width: '500px',
-      height: '500px'})  
+      height: '250px'})  
   }
   openForm() {
     this.dialog.open(FormComponent, {
@@ -48,7 +48,7 @@ export class DashboardComponent {
   openEdit(): void{
     this.dialog.open(EditComponent,{
       width: '500px',
-      height: '500px'
+      height: '250px'
     })
   }
 

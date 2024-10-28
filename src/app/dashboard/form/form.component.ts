@@ -40,6 +40,13 @@ export class FormComponent implements OnInit {
     { name: "Trip Wise", formName: "trip", vehicle: false },
     { name: "Driving Scorecard Report", formName: "driving", vehicle: true }
   ]
+  branches = [
+    { value: 'All Vehicles', label: 'All Vehicles' },
+    { value: 'mumbai', label: 'Mumbai' },
+    { value: 'thane', label: 'Thane' },
+    { value: 'pune', label: 'Pune' }
+];
+
   daysCalender: number[] = [];
   username: string = this.auth.loggedinuser;
 
@@ -95,7 +102,7 @@ export class FormComponent implements OnInit {
         vehicle: userData.reports?.reports_list.includes("Vehicle Wise Report") || false,
         trip: userData.reports?.reports_list.includes("Trip Wise") || false,
         driving: userData.reports?.reports_list.includes("Driving Scorecard Report") || false,
-        userEmail: userData.email_list?.email_list[0] || '',
+        //userEmail: userData.email_list?.email_list[0] || '',
         reportInterval: userData.schedule_interval || '',
         time: userData.schedule_time || '09:30'
       });
@@ -144,17 +151,31 @@ export class FormComponent implements OnInit {
     });
   }
 
-
+  dupEmail: string = '';
   putEmail() {
-    let enteredEmail = this.ScheduleReport.get('userEmail');
-    if (enteredEmail && enteredEmail.valid && this.emailList.length < 5) {
-      this.emailList.push(enteredEmail.value);
-      enteredEmail.reset();
-      //console.log(this.emailList);
+    const enteredEmail = this.ScheduleReport.get('userEmail')?.value;
+    console.log(enteredEmail);
+    
+
+    if (this.emailList.length >= 5) {
+      this.dupEmail = 'Cannot add more than 5 emails.';
+      return;
     }
-    else if (this.emailList.length == 5) {
-      alert("you cannot add more than 5 emails");
-      enteredEmail?.reset();
+
+    if (this.emailList.includes(enteredEmail)) {
+      this.dupEmail = 'Duplicate email cannot be added.';
+      this.ScheduleReport.get('userEmail')?.reset();
+      return;
+    }
+
+    if (enteredEmail) {
+      this.emailList.push(enteredEmail);
+      this.ScheduleReport.get('userEmail')?.reset();
+      console.log(this.emailList);
+      
+      this.dupEmail = '';
+    } else {
+      this.dupEmail = '*Enter a valid email';
     }
   }
 
@@ -166,9 +187,9 @@ export class FormComponent implements OnInit {
   }
 
   onVehicleSelect(vehicle: any) {
-    const index = this.selectedVehicles.indexOf(vehicle.vin);
+    const index = this.selectedVehicles.indexOf(vehicle.registration_number);
     if (index === -1) {
-      this.selectedVehicles.push(vehicle.vin);
+      this.selectedVehicles.push(vehicle.registration_number);
     } else {
       this.selectedVehicles.splice(index, 1);
     }
@@ -176,8 +197,10 @@ export class FormComponent implements OnInit {
   }
 
   get additionalCount() {
-    return this.selectedVehicles.length > 1 ? this.selectedVehicles.length - 1 : 0;
+    return this.selectedVehicles.length > 2 ? this.selectedVehicles.length - 2 : 0;
   }
+
+  validationMessage = '';
   nextStep() {
     if (this.validateForm()) {
       if (this.count_step < this.total_step) {
@@ -185,14 +208,23 @@ export class FormComponent implements OnInit {
         //this.nextValue = "Done";
       }
       else {
-        this.saveToLocalStorage();
-        //this.route.navigate(['/edit'])
-        this.dialog.close();
-        // this.openEdit();
-        this.openlast();
-        console.log("data saved");
-      }
+          const selectedInterval = this.ScheduleReport.get('reportInterval')?.value;
+          if (!selectedInterval) {
+            this.validationMessage = 'Please select a report interval before submitting.';
+            return;
+          }
+          else {
+            this.saveToLocalStorage();
+            this.dialog.close();
+            this.openlast();
+            console.log("data saved");
+          }
+        }
     }
+  }
+
+  closeForm(){
+    this.dialog.close();
   }
   reportCheckBox: boolean = false;
   reportVehicles: boolean = false;
@@ -241,6 +273,9 @@ return true;
     if (this.count_step == 1) {
       this.count_step--;
       //this.nextValue = "Next>";
+    }
+    else {
+      this.dialog.close();
     }
   }
   /*
@@ -303,7 +338,11 @@ return true;
   }
 
   increment() {
-    this.minutes++;
+    const currentTime = this.ScheduleReport.get('time')?.value;
+    const [hourPart, minutePart] = currentTime.split(':');
+    this.hours = parseInt(hourPart, 10);
+    this.minutes = parseInt(minutePart.split(' ')[0], 10);
+    this.minutes = this.minutes + 15;
     if (this.minutes === 60) {
       this.minutes = 0;
       this.hours++;
@@ -318,9 +357,13 @@ return true;
   }
 
   decrement() {
-    this.minutes--;
+    const currentTime = this.ScheduleReport.get('time')?.value;
+    const [hourPart, minutePart] = currentTime.split(':');
+    this.hours = parseInt(hourPart, 10);
+    this.minutes = parseInt(minutePart.split(' ')[0], 10);
+    this.minutes = this.minutes - 15;
     if (this.minutes < 0) {
-      this.minutes = 59;
+      this.minutes = 45;
       this.hours--;
       if (this.hours === 0) {
         this.hours = 12;
@@ -350,6 +393,7 @@ return true;
   yearly = ['Last Day of the Year', 'First Day of the Year', 'Custom'];
 
   onChange(event: any) {
+    this.validationMessage = '';
     this.value = event.target.value;
     this.selectedOption = this.value ? this.cases.indexOf(this.value) : -1;
     /*this.selectedDay = null;
@@ -384,7 +428,7 @@ return true;
       //   email: this.emails
       // }
       width: '500px',
-      height: '500px'
+      height: '250px'
     });
   }
 
@@ -396,7 +440,7 @@ return true;
     return numbers;
   }
 
-
+  
   // saveToLocalStorage() {
   //   const reportData = {
   //     dataUser: this.username,
@@ -427,6 +471,10 @@ return true;
       },
       schedule_date: this.ScheduleReport.get('date')?.value || new Date().toISOString().split('T')[0],
       schedule_time: this.ScheduleReport.get('time')?.value || '09:00:00',
+      schedule_time_ampm: this.ampm,
+      selectedDay: this.selected,
+      selectedQuater: this.selectedQuarter,
+      selectedYear: this.selectedYear,
       schedule_interval: this.value,
       schedule_day: this.selectedDay || this.selectedDayCal, 
       skip_weekend: this.toggleOnOff,

@@ -91,6 +91,9 @@ export class FormComponent implements OnInit {
     this.ScheduleReport.get('vehicleSearch')?.valueChanges.subscribe(() => {
       this.filteredVehicleList();
     });
+    this.ScheduleReport.get('userEmail')?.valueChanges.subscribe(()=>{
+      this.validateForm();
+    })
     this.updateTimeInput();
     const storeData = localStorage.getItem(this.username)
     if (storeData) {
@@ -117,6 +120,13 @@ export class FormComponent implements OnInit {
       this.toggleOnOff = userData.skip_weekend;
       console.log("vechicles",this.filteredVehicles, this.selectedCheckbox,this.emailList);
       this.validateForm();
+      this.ampm = userData.schedule_time_ampm;
+      /*this.selected = userData.selectedDay;
+      this.selectedQuarter = userData.selectedQuater;
+      this.selectedYear = userData.selectedYear;
+      this.selectedDay = userData.schedule_day;
+      this.selectedDayCal = userData.schedule_day; */ 
+      this.selectedOption = userData.schedule_interval ? this.cases.indexOf(userData.schedule_interval) : -1;
     }
     console.log(this.selectedVehicles);
     
@@ -192,6 +202,7 @@ export class FormComponent implements OnInit {
     } else {
       this.selectedVehicles.splice(index, 1);
     }
+    this.validateForm();
     console.log('Selected Vehicles:', this.selectedVehicles);
   }
 
@@ -277,57 +288,7 @@ return true;
       this.dialog.close();
     }
   }
-  /*
-  hours: number = 12;
-  minutes: number = 0;
-  ampm: string = 'AM';
-
-  increment() {
-    if (this.minutes === 59) {
-      this.minutes = 0;
-      if (this.hours === 12) {
-        this.hours = 1;
-      } else {
-        this.hours++;
-      }
-    } else {
-      this.minutes++;
-    }
-    this.updateFormattedTime();
-  }
-
-  decrement() {
-    if (this.minutes === 0) {
-      this.minutes = 59;
-      if (this.hours === 1) {
-        this.hours = 12;
-      } else {
-        this.hours--;
-      }
-    } else {
-      this.minutes--;
-    }
-    this.updateFormattedTime();
-  }
-
-
-  toggleAmPm() {
-    this.ampm = this.ampm === 'AM' ? 'PM' : 'AM';
-    this.updateFormattedTime();
-  }
-
-  formatTime(value: number): string {
-    return value < 10 ? '0' + value : value.toString();
-  }
-
-  getFormattedTime(): string {
-    return `${this.formatTime(this.hours)}:${this.formatTime(this.minutes)} ${this.ampm}`;
-  }
-  updateFormattedTime() {
-    this.formattedTime = this.getFormattedTime(); // Call the method to get the updated formatted time
-  }
-*/
-
+  
   hours: number = 9;
   minutes: number = 30;
   ampm: string = 'AM';
@@ -422,7 +383,7 @@ return true;
   openlast() {
     this.dialog1.open(EditComponent, {
       width: '500px',
-      height: '250px'
+      height: '280px'
     });
   }
 
@@ -434,8 +395,11 @@ return true;
     return numbers;
   }
 
+
+  userdatanew: any= {};
   
   saveToLocalStorage() {
+    
     const reportData = {
       dataUser: this.username,
       reports: {
@@ -456,7 +420,7 @@ return true;
       schedule_interval: this.value,
       schedule_day: this.selectedDay || this.selectedDayCal, 
       skip_weekend: this.toggleOnOff,
-    };
+    };  
 
     localStorage.setItem(this.username, JSON.stringify(reportData));
     console.log("Data saved to local storage:", reportData);

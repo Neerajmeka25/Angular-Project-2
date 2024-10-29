@@ -41,7 +41,7 @@ export class DashboardComponent {
   edit() {
     this.dialog.open(EditComponent, {
       width: '500px',
-      height: '250px'
+      height: '280px'
     });
   }
 

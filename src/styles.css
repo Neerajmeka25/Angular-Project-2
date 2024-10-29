@@ -21,22 +21,22 @@ div.mat-mdc-dialog-surface.mdc-dialog__surface{
 
 .monthlyCal .mat-calendar-body-cell {
   border-radius: 50%;
-  color: white; 
+  /*color: white;*/ 
 }
 
-/* Unified hover and focus effects */
+/* Unified hover and focus effects 
 .monthlyCal .mat-calendar-body-cell:hover,
 .monthlyCal .mat-calendar-body-cell:focus {
   background-color: #031c72;
   color: white !important; 
 }
-
-/* Selected date styles */
+*/
+/* Selected date styles 
 .monthlyCal .mat-calendar-body-cell.selected {
   background-color: #031c72;
   color: white !important; 
 } 
-
+*/
 .monthlyCal .mat-calendar-header {
   background-color: #e8f5ff;
 }
@@ -77,7 +77,7 @@ div.mat-mdc-dialog-surface.mdc-dialog__surface{
   color: white !important;
 }
 
-/* Remove any additional hover effects */
+/* Remove any additional hover effects 
 .mat-calendar .mat-calendar-body-cell:hover {
   background-color: #031c72 !important; 
   color: #fff !important; 
@@ -92,17 +92,17 @@ div.mat-mdc-dialog-surface.mdc-dialog__surface{
   background-color: #031c72;
   color: white !important; 
 }
-
-/* Ensure disabled cells do not show hover */
+*/
+/* Ensure disabled cells do not show hover 
 .mat-calendar-body-disabled > .mat-calendar-body-cell-content:hover {
   color: gray !important; 
-}
+}*/
 
-/* Remove hover effect from focus indicators */
+/* Remove hover effect from focus indicators
 .mat-calendar-body-cell-content.mat-focus-indicator:hover {
   color: white !important;
 }
-
+ */
 /* .demo-inline-calendar-card {
   background-color: #e8f5ff;
 }

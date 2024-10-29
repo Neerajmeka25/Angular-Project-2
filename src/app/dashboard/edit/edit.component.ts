@@ -26,6 +26,7 @@
       const storedData = localStorage.getItem(this.loggedInUsername);
       if (storedData) {
         this.userData = JSON.parse(storedData);
+        console.log(this.userData);
       }
     }
 
@@ -44,10 +45,10 @@
         disableClose: true, 
         data: {
           username: this.loggedInUsername,
-          reports: this.userData.reports,
+          /*reports: this.userData.reports,
           email_list: this.userData.email_list,
           schedule_time: this.userData.schedule_time,
-          schedule_date: this.userData.schedule_date,
+          schedule_date: this.userData.schedule_date,*/
         }
       });
     }

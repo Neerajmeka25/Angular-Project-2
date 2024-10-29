@@ -12,7 +12,6 @@
             <span *ngFor="let report of reportList; let last = last; let i = index">
                 <strong><span *ngIf="last && reportList.length > 1"> and </span>{{ report }}</strong>
                 <span *ngIf="!last && reportList.length > 1 && i!=0">, </span>
-
             </span>
             will be sent to
         </p>
@@ -49,7 +48,7 @@
                     <span *ngIf="userData.selectedYear === 'First Day of the Year'">First day of the year</span>
                     <span *ngIf="userData.selectedYear === 'Last Day of the Year'">Last day of the year</span>
                     <span *ngIf="userData.selectedYear !== 'First Day of the Year' && userData.selectedYear !== 'Last Day of the Year'">
-                        on <strong>{{ userData.schedule_date | date: 'dd/MM' }}</strong>
+                        <strong>{{ userData.schedule_date | date: 'dd/MM' }}</strong>
                     </span>
                 </span>
                 at <strong>{{ userData.schedule_time }}</strong> <strong>{{ userData.schedule_time_ampm }}</strong>.

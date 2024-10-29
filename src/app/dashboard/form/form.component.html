@@ -16,24 +16,6 @@
                 <label>{{data.name}}</label>
             </div>
         </div>
-        <!-- <div id="checkedBoxList">
-            <div class="checkbox">
-                <input type="checkbox" formControlName="fleet"/>
-                <label>Fleet Wise Report</label>
-            </div>
-            <div>
-                <input type="checkbox" formControlName="vehicle" />
-                <label>Vehicle Wise Report</label>
-            </div>
-            <div>
-                <input type="checkbox" formControlName="trip" />
-                <label>Trip Wise</label>
-            </div>
-            <div>
-                <input type="checkbox" formControlName="driving" />
-                <label>Driving Scorecard Report</label>
-            </div>
-        </div> -->
         <div id="wholeVehicle" *ngIf="showVehicleList">
             <h4 id="vehicleHeader">Select Vehicles</h4>
             <span *ngIf="reportVehicles" id="vehicleValidation">*Select a Vehicle</span>
@@ -105,8 +87,9 @@
                     <p *ngFor="let data of selectedCheckbox; let i = index">
                         <span *ngIf="i!=0 && i == selectedCheckbox.length-1"> and </span>
                         {{ data }} 
+                        
+                        <span *ngIf="i < selectedCheckbox.length - 1">,</span>
                         &nbsp;
-                        <span *ngIf="i < selectedCheckbox.length - 1 && i!=selectedCheckbox.length-1 && i!=0">,</span>
                     </p>
                 </div>
             </div>
@@ -117,7 +100,7 @@
                     <p *ngIf="selectedVehicles.length === 0">None</p>
                     <p *ngIf="selectedVehicles.length === 1">{{ selectedVehicles[0] }}</p>
                     <p *ngIf="selectedVehicles.length === 2">{{selectedVehicles[0]}} and {{selectedVehicles[1]}}</p>
-                    <p *ngIf="selectedVehicles.length > 2">{{ selectedVehicles[0] }},{{ selectedVehicles[1] }} and {{ additionalCount }} others
+                    <p *ngIf="selectedVehicles.length > 2">{{ selectedVehicles[0] }}, {{ selectedVehicles[1] }} and {{ additionalCount }} others
                     </p>
                 </div>
             </div>
@@ -275,7 +258,7 @@
     </div>
     <div id="pageControl">
         <button (click)="prevStep()" id="cancelBtn">Cancel</button>
-        <button (click)="nextStep()" *ngIf="count_step==0" class="nextBtn">Next ></button>
+        <button (click)="nextStep()" *ngIf="count_step==0" class="nextBtn" [disabled]="!isFormValid ">Next ></button>
         <button type="submit" *ngIf="count_step==1" (click)="nextStep()" [disabled]="!isFormValid" class="nextBtn">Done</button>
     </div>
 </form>

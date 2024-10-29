@@ -36,7 +36,7 @@ form {
 
 #checkBoxValidation {
     color: red;
-    margin: 0px 0 -22px 0;
+    margin: -15px 0 -15px 0;
     font-size: 12px;
 }
 #checkedBoxlist {
@@ -167,6 +167,12 @@ input[type="checkbox"] {
     font-weight: 700;
 }
 
+.nextBtn:disabled{
+    background-color: #c4c4c4;
+    border: 1px solid #c4c4c4;
+    color: white;
+    cursor: not-allowed;
+}
 #enteredEmails {
     width: 96%;
     height: 100px;
@@ -281,6 +287,9 @@ input[type="checkbox"] {
     color: red;
     margin: -15px 0 -30px 0;
     font-size: 12px;
+    position: absolute;
+    left: 53px;
+    top: 431px;
 }
 
 select{
@@ -411,12 +420,15 @@ select{
 }
 .eachValue{
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .eachValue p {
     font-size: 14px;
     font-weight: 400;
     color: #333333;
+    width: fit-content;
 }
 
 .email-container {

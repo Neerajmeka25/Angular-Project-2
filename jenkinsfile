@@ -1,69 +1,68 @@
 pipeline {
     agent any
+    tools { nodejs 'Node20' }
+
     parameters {
         string(name: 'DEPLOY_VERSION', defaultValue: 'v1.0.0', description: 'Deployment version')
-        string(name: 'GIT_BRANCH', defaultValue: 'main', description: 'Git branch name')
-        choice(name: 'TARGET_ENV', choices: ['dev', 'staging', 'prod'], description: 'Target environment')
     }
+
     environment {
-        // Map environment to EC2 host
-        EC2_HOSTS = [
-            dev: 'ec2-user@dev-host-ip',
-            staging: 'ec2-user@staging-host-ip',
-            prod: 'ec2-user@prod-host-ip'
-        ]
+        REPO_URL    = 'https://github.com/your_username/your_angular_project.git'
+        DEPLOY_USER = 'deploy'
+        TARGET_HOST = '13.51.195.156'
+        APP_DIR     = '/var/www/angular-app'
+        NODE_ENV    = 'development'
     }
+
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${params.GIT_BRANCH}", url: 'git@github.com:your_repo/your_angular_project.git'
+                git branch: 'master', url: env.REPO_URL
             }
         }
+
         stage('Build') {
             steps {
-                // Install dependencies and build Angular app
                 sh 'npm install'
-                sh 'npx ng build --configuration production'
+                sh 'npx ng build --configuration development'
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
-                    def host = EC2_HOSTS[params.TARGET_ENV]
-                    sshagent(['ec2-key']) {
-                        // Before deploying, backup current deployed folder on EC2 (for rollback)
-                        sh """
-                            ssh -o StrictHostKeyChecking=no ${host} '
-                                if [ -d /var/www/html ]; then
-                                    mv /var/www/html /var/www/html_backup_${params.DEPLOY_VERSION} || true
-                                fi
-                            '
-                        """
-                        // Copy new build files to EC2
-                        sh """
-                            scp -o StrictHostKeyChecking=no -r dist/your-project-name/* ${host}:/var/www/html/
-                        """
-                    }
+                    sh """
+                      ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${TARGET_HOST} '
+                        mkdir -p ${APP_DIR}/releases &&
+                        cd ${APP_DIR}/releases &&
+                        ls -dt */ | tail -n +6 | xargs rm -rf || true
+                      '
+                    """
+                    def releaseDir = "${APP_DIR}/releases/${params.DEPLOY_VERSION}"
+                    sh "ssh ${DEPLOY_USER}@${TARGET_HOST} 'mkdir -p ${releaseDir}'"
+                    sh "scp -r dist/your-angular-app/* ${DEPLOY_USER}@${TARGET_HOST}:${releaseDir}/"
+                    sh "ssh ${DEPLOY_USER}@${TARGET_HOST} 'ln -sfn ${releaseDir} ${APP_DIR}/current'"
                 }
             }
         }
     }
+
     post {
+        success {
+            echo "Deployed ${params.DEPLOY_VERSION} to ${TARGET_HOST}"
+        }
+
         failure {
+            echo "Deployment failed; rolling back"
             script {
-                def host = EC2_HOSTS[params.TARGET_ENV]
-                sshagent(['ec2-key']) {
-                    // Rollback: Restore backup on failure
-                    sh """
-                        ssh -o StrictHostKeyChecking=no ${host} '
-                            if [ -d /var/www/html_backup_${params.DEPLOY_VERSION} ]; then
-                                rm -rf /var/www/html
-                                mv /var/www/html_backup_${params.DEPLOY_VERSION} /var/www/html
-                            fi
-                        '
-                    """
-                }
+                sh """
+                  ssh ${DEPLOY_USER}@${TARGET_HOST} '
+                    cd ${APP_DIR}/releases &&
+                    ls -dt */ | sed "1d" | head -n1 | xargs -I{} ln -sfn ${APP_DIR}/releases/{} ${APP_DIR}/current
+                  '
+                """
             }
+            error("Rollback complete and build marked as failed")
         }
     }
 }

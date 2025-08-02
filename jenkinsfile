@@ -25,6 +25,8 @@ pipeline {
             steps {
                 echo 'Installing npm dependencies'
                 sh 'npm install'
+                echo 'Installing npm dependencies'
+                sh 'npm install -g @angular/cli'
                 echo 'Building angular application'
                 sh 'ng build'
             }

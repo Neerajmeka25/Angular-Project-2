@@ -9,7 +9,7 @@ pipeline {
     environment {
         REPO_URL    = 'https://github.com/Neerajmeka25/Angular-Project-2.git'
         DEPLOY_USER = 'deploy'
-        TARGET_HOST = '13.51.195.156'
+        TARGET_HOST = '16.171.42.152'
         APP_DIR     = '/var/www/angular-app'
         NODE_ENV    = 'development'
     }

@@ -23,8 +23,10 @@ pipeline {
 
         stage('Build') {
             steps {
+                echo 'Installing npm dependencies'
                 sh 'npm install'
-                sh 'npx ng build --configuration development'
+                echo 'Building angular application'
+                sh 'ng build'
             }
         }
 
